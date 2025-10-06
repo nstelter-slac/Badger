@@ -46,8 +46,10 @@ class BadgerConfig(BaseModel):
         Setting for the logbook root directory.
     BADGER_ARCHIVE_ROOT : Setting
         Setting for the archive root directory.
-    BADGER_LOGGING_LEVEL : Setting
+    BADGER_LOGFILE_PATH : Setting
         Setting for the logging level.
+    BADGER_LOGGING_FILE : Setting
+        Setting for the location of logfile.
     BADGER_DATA_DUMP_PERIOD : Setting
         Setting for the minimum time interval between data dumps (in seconds).
     BADGER_THEME : Setting
@@ -83,8 +85,14 @@ class BadgerConfig(BaseModel):
     BADGER_LOGGING_LEVEL: Setting = Setting(
         display_name="logging level",
         description="Logging level for the Badger logger",
-        value="INFO",
+        value="DEBUG",
         is_path=False,
+    )
+    BADGER_LOGFILE_PATH: Setting = Setting(
+        display_name="logfile path",
+        description="Path for the Badger logfile",
+        value="badger.log",
+        is_path=True,
     )
     BADGER_DATA_DUMP_PERIOD: Setting = Setting(
         display_name="data dump period",
@@ -368,6 +376,7 @@ class ConfigSingleton:
         value: Any
             The value that is being saved.
         """
+        print("!!!! writring value !!!")
         keys = key.split(".")
         updates = {}
         sub_dict = updates
