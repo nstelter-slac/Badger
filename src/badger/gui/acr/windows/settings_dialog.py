@@ -20,7 +20,7 @@ from PyQt5.QtWidgets import (
 )
 from qdarkstyle import load_stylesheet, DarkPalette, LightPalette
 from badger.settings import init_settings
-from badger.log import set_log_level
+from badger.log import set_log_level, get_logging_manager
 
 
 class BadgerSettingsDialog(QDialog):
@@ -219,9 +219,15 @@ class BadgerSettingsDialog(QDialog):
             "BADGER_LOGGING_LEVEL", level_str
         )
         # update loggers with new value
-        level = getattr(logging, level_str, "DEBUG")
+        level = getattr(logging, level_str, logging.WARNING)
         set_log_level(level)
         logger.info(f"Logger level changed to {level}")
+
+        # IMPORTANT: Also update the centralized logging manager
+        logging_manager = get_logging_manager()
+        logging_manager.update_log_level(level)
+    
+        logger.info(f"Logger level changed to {level_str} across all processes")
 
         # self.config_singleton.write_value(
         #     "AUTO_REFRESH", self.enable_auto_refresh.isChecked()

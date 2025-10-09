@@ -14,6 +14,7 @@ import traceback
 from badger.errors import BadgerError
 from types import TracebackType
 from typing import Type, NoReturn
+from badger.log import get_logging_manager
 
 # Fix the scaling issue on multiple monitors w/ different scaling settings
 # if sys.platform == 'win32':
@@ -87,6 +88,13 @@ def launch_gui(config_path=None):
         config_singleton = init_settings(config_path)
     else:
         config_singleton = init_settings()
+
+    # ADD THESE 5 LINES - Start centralized logging:
+    log_level = config_singleton.read_value("BADGER_LOGGING_LEVEL")
+    log_filepath = config_singleton.read_value("BADGER_LOGFILE_PATH")
+    logging_manager = get_logging_manager()
+    logging_manager.start_listener(log_filepath, log_level)
+    print(f"Centralized logging started: {log_filepath} at level {log_level}")
 
     # Set app metainfo
     app.setApplicationName("Badger")
