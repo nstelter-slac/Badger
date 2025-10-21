@@ -7,7 +7,9 @@ from badger.core_subprocess import run_routine_subprocess
 
 import logging
 from badger.log import get_logging_manager
+
 logger = logging.getLogger(__name__)
+
 
 class CreateProcess(QObject):
     """
@@ -47,6 +49,7 @@ class CreateProcess(QObject):
                 self.pause_event,
                 self.wait_event,
                 config_path,
+                log_queue,
             ),
         )
         new_process.start()

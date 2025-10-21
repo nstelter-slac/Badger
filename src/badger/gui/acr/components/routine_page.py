@@ -1408,7 +1408,9 @@ class BadgerRoutinePage(QWidget):
             self.ratio_var_ranges[vname] = copy.deepcopy(self.limit_option)
 
     def set_ind_vrange(self, vname, config):
-        logger.info(f"Setting individual variable range for {vname} with config: {config}")
+        logger.info(
+            f"Setting individual variable range for {vname} with config: {config}"
+        )
         hard_bounds = [config["lower_bound"], config["upper_bound"]]
         option = {
             "limit_option_idx": config["limit_option_idx"],
@@ -1441,7 +1443,9 @@ class BadgerRoutinePage(QWidget):
             ]
             bounds = np.clip(bounds, hard_bounds[0], hard_bounds[1]).tolist()
 
-        logger.info(f"Setting bounds for {vname}: {bounds} (hard bounds: {hard_bounds})")
+        logger.info(
+            f"Setting bounds for {vname}: {bounds} (hard bounds: {hard_bounds})"
+        )
         # Set the bounds in the table
         self.env_box.var_table.refresh_variable(vname, bounds, hard_bounds)
         self.clear_init_table(reset_actions=False)  # clear table after changing ranges
@@ -1545,6 +1549,7 @@ class BadgerRoutinePage(QWidget):
                 logger.info(f"Auto bounds for {name} (current ratio): {bounds}")
 
         return vrange
+
     def toggle_relative_to_curr(self, checked, refresh=True):
         logger.info(f"Toggling relative_to_curr: checked={checked}, refresh={refresh}")
         if checked:
@@ -1683,7 +1688,9 @@ class BadgerRoutinePage(QWidget):
                 f"\n\nVOCS validation failed: {format_validation_error(e)}"
             ) from e
 
-        logger.info(f"VOCS: variables={list(variables.keys())}, objectives={list(objectives.keys())}, constraints={list(constraints.keys())}, observables={observables}, critical_constraints={critical_constraints}")
+        logger.info(
+            f"VOCS: variables={list(variables.keys())}, objectives={list(objectives.keys())}, constraints={list(constraints.keys())}, observables={observables}, critical_constraints={critical_constraints}"
+        )
         return vocs, critical_constraints
 
     def _compose_routine(self) -> Routine:
@@ -1705,7 +1712,9 @@ class BadgerRoutinePage(QWidget):
         generator_name = self.generators[self.generator_box.cb.currentIndex()]
         env_name = self.envs[self.env_box.cb.currentIndex()]
         generator_params = load_config(self.generator_box.edit.toPlainText())
-        logger.debug(f"Generator selected: {generator_name}, params: {generator_params}")
+        logger.debug(
+            f"Generator selected: {generator_name}, params: {generator_params}"
+        )
         if generator_name in all_generator_names["bo"]:
             # Patch the BO generators to make sure use_low_noise_prior is False
             if "gp_constructor" not in generator_params:
@@ -1736,7 +1745,9 @@ class BadgerRoutinePage(QWidget):
 
         # VOCS
         vocs, critical_constraints = self._compose_vocs()
-        logger.debug(f"VOCS composed: variables={list(vocs.variables.keys())}, objectives={list(vocs.objectives.keys())}, constraints={list(vocs.constraints.keys())}")
+        logger.debug(
+            f"VOCS composed: variables={list(vocs.variables.keys())}, objectives={list(vocs.objectives.keys())}, constraints={list(vocs.constraints.keys())}"
+        )
         if not vocs.variables:
             logger.error("No variables selected.")
             raise BadgerRoutineError("no variables selected")

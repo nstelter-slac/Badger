@@ -89,7 +89,7 @@ def launch_gui(config_path=None):
     else:
         config_singleton = init_settings()
 
-    # ADD THESE 5 LINES - Start centralized logging:
+    # Start centralized logging:
     log_level = config_singleton.read_value("BADGER_LOGGING_LEVEL")
     log_filepath = config_singleton.read_value("BADGER_LOGFILE_PATH")
     logging_manager = get_logging_manager()
