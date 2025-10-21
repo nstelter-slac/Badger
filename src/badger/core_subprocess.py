@@ -10,6 +10,7 @@ from badger.errors import BadgerRunTerminated, BadgerEnvObsError
 from badger.logger import _get_default_logger
 from badger.logger.event import Events
 from badger.routine import Routine
+from badger.log import configure_subprocess_logger
 
 from xopt.errors import FeasibilityError, XoptError
 
@@ -74,6 +75,7 @@ def run_routine_subprocess(
     pause_process: mp.Event,
     wait_event: mp.Event,
     config_path: str = None,
+    log_queue: mp.Queue = None,
 ) -> None:
     """
     Run the provided routine object using Xopt. This method is run as a subproccess
@@ -85,7 +87,26 @@ def run_routine_subprocess(
     stop_process: mp.Event
     pause_process: mp.Event
     wait_event: mp.Event
+    config_path: str
+    log_queue: mp.Queue
     """
+
+    # IMPORTANT: Configure subprocess logging FIRST, before any other logging calls
+    if log_queue is not None:
+        # Get log level from config
+        temp_config = init_settings(config_path)
+        log_level = temp_config.read_value("BADGER_LOGGING_LEVEL")
+
+        # Configure subprocess logging with custom process name
+        configure_subprocess_logger(
+            log_queue=log_queue,
+            logger_name="badger",
+            log_level=log_level,
+            process_name=f"OptWorker-{mp.current_process().pid}",
+        )
+
+    # Now all subsequent logger calls will go to the central queue
+    logger.info(f"Subprocess started with PID {mp.current_process().pid}")
 
     # Initialize the settings singleton with the provided config path
     logger.info(f"Initializing settings with config path: {config_path}")

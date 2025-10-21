@@ -1,0 +1,545 @@
+2025-10-21 14:01:42,499 - OptWorker-2489 - badger.core_subprocess - WARNING  - AttributeError when converting turbo_controller dtype
+2025-10-21 14:01:50,431 - badger.log - INFO - Setting logger badger to level DEBUG
+2025-10-21 14:01:50,431 - badger.log - INFO - Setting logger badger.utils to level DEBUG
+2025-10-21 14:01:50,431 - badger.log - INFO - Setting logger badger.settings to level DEBUG
+2025-10-21 14:01:50,431 - badger.log - INFO - Setting logger badger.actions.config to level DEBUG
+2025-10-21 14:01:50,431 - badger.log - INFO - Setting logger badger.actions.routine to level DEBUG
+2025-10-21 14:01:50,431 - badger.log - INFO - Setting logger badger.actions.generator to level DEBUG
+2025-10-21 14:01:50,431 - badger.log - INFO - Setting logger badger.actions.env to level DEBUG
+2025-10-21 14:01:50,431 - badger.log - INFO - Setting logger badger.actions.install to level DEBUG
+2025-10-21 14:01:50,431 - badger.log - INFO - Setting logger badger.actions.uninstall to level DEBUG
+2025-10-21 14:01:50,431 - badger.log - INFO - Setting logger badger.actions.intf to level DEBUG
+2025-10-21 14:01:50,431 - badger.log - INFO - Setting logger badger.factory to level DEBUG
+2025-10-21 14:01:50,431 - badger.log - INFO - Setting logger badger.routine to level DEBUG
+2025-10-21 14:01:50,431 - badger.log - INFO - Setting logger badger.actions.run to level DEBUG
+2025-10-21 14:01:50,431 - badger.log - INFO - Setting logger badger.log to level DEBUG
+2025-10-21 14:01:50,431 - badger.log - INFO - Setting logger badger.core_subprocess to level DEBUG
+2025-10-21 14:01:50,431 - badger.log - INFO - Setting logger badger.gui.default.components.create_process to level DEBUG
+2025-10-21 14:01:50,432 - badger.log - INFO - Setting logger badger.archive to level DEBUG
+2025-10-21 14:01:50,432 - badger.log - INFO - Setting logger badger.db to level DEBUG
+2025-10-21 14:01:50,432 - badger.log - INFO - Setting logger badger.gui.default.components.extension_utilities to level DEBUG
+2025-10-21 14:01:50,432 - badger.log - INFO - Setting logger badger.gui.default.components.analysis_widget to level DEBUG
+2025-10-21 14:01:50,432 - badger.log - INFO - Setting logger badger.gui.default.components.bo_visualizer.ui_components to level DEBUG
+2025-10-21 14:01:50,432 - badger.log - INFO - Setting logger badger.gui.default.components.plot_event_handlers to level DEBUG
+2025-10-21 14:01:50,432 - badger.log - INFO - Setting logger badger.gui.default.components.bo_visualizer.plotting_area to level DEBUG
+2025-10-21 14:01:50,432 - badger.log - INFO - Setting logger badger.gui.default.components.bo_visualizer.bo_widget to level DEBUG
+2025-10-21 14:01:50,432 - badger.log - INFO - Setting logger badger.gui.default.components.pf_viewer.pf_widget to level DEBUG
+2025-10-21 14:01:50,432 - badger.log - INFO - Setting logger badger.gui.default.components.analysis_extensions to level DEBUG
+2025-10-21 14:01:50,432 - badger.log - INFO - Setting logger badger.logbook to level DEBUG
+2025-10-21 14:01:50,432 - badger.log - INFO - Setting logger badger.gui.default.components.routine_runner to level DEBUG
+2025-10-21 14:01:50,432 - badger.log - INFO - Setting logger badger.gui.default.components.run_monitor to level DEBUG
+2025-10-21 14:01:50,432 - badger.log - INFO - Setting logger badger.gui.acr.components.routine_page to level DEBUG
+2025-10-21 14:01:50,432 - badger.log - INFO - Setting logger badger.gui.acr.components.archive_search to level DEBUG
+2025-10-21 14:01:50,432 - badger.log - INFO - Setting logger badger.gui.acr.windows.settings_dialog to level DEBUG
+2025-10-21 14:01:50,432 - badger.log - INFO - Setting logger badger.gui.acr.pages.home_page to level DEBUG
+2025-10-21 14:01:50,432 - badger.log - INFO - Setting logger badger.gui.acr.windows.main_window to level DEBUG
+2025-10-21 14:01:50,432 - badger.gui.acr.windows.settings_dialog - INFO - Logger level changed to 10
+2025-10-21 14:01:50,432 - badger.log - INFO - Log level updated to DEBUG for all handlers
+2025-10-21 14:01:50,432 - badger.gui.acr.windows.settings_dialog - INFO - Logger level changed to DEBUG across all processes
+2025-10-21 14:01:53,841 - badger.gui.acr.pages.home_page - INFO - Starting run.
+2025-10-21 14:01:53,841 - badger.gui.acr.pages.home_page - INFO - Preparing new run.
+2025-10-21 14:01:53,841 - badger.gui.acr.components.routine_page - INFO - Composing routine from GUI state.
+2025-10-21 14:01:53,842 - badger.gui.acr.components.routine_page - DEBUG - Generator selected: expected_improvement, params: {'turbo_controller': None, 'numerical_optimizer': {'name': 'LBFGS', 'n_restarts': 20, 'max_iter': 2000, 'max_time': 5.0}, 'max_travel_distances': None}
+2025-10-21 14:01:53,842 - badger.gui.acr.components.routine_page - DEBUG - Environment selected: sphere_2d, params: {}
+2025-10-21 14:01:53,842 - badger.gui.acr.components.routine_page - INFO - Composing VOCS settings.
+2025-10-21 14:01:53,842 - badger.gui.acr.components.routine_page - INFO - VOCS composed successfully.
+2025-10-21 14:01:53,842 - badger.gui.acr.components.routine_page - INFO - VOCS: variables=['x0', 'x1'], objectives=['f'], constraints=[], observables=[], critical_constraints=[]
+2025-10-21 14:01:53,842 - badger.gui.acr.components.routine_page - DEBUG - VOCS composed: variables=['x0', 'x1'], objectives=['f'], constraints=[]
+2025-10-21 14:01:53,844 - badger.gui.acr.components.routine_page - DEBUG - Routine is set to use relative to current variable ranges.
+2025-10-21 14:01:53,844 - badger.gui.acr.components.routine_page - INFO - Generator instance created: expected_improvement
+2025-10-21 14:01:53,847 - badger.routine - INFO - Validating Routine model from input data.
+2025-10-21 14:01:53,847 - badger.routine - DEBUG - Routine data dict received: ['badger_version', 'xopt_version', 'vocs', 'generator', 'name', 'description', 'environment', 'initial_points', 'critical_constraint_names', 'tags', 'script', 'relative_to_current', 'vrange_limit_options', 'vrange_hard_limit', 'initial_point_actions', 'additional_variables', 'formulas', 'constraint_formulas', 'observable_formulas']
+2025-10-21 14:01:53,848 - badger.routine - DEBUG - Validating initial_points field.
+2025-10-21 14:01:53,848 - badger.gui.acr.components.routine_page - INFO - Routine composed successfully: amaranth-rattlesnake
+2025-10-21 14:01:53,848 - badger.routine - INFO - Serializing Routine to JSON.
+2025-10-21 14:01:53,858 - badger.gui.acr.pages.home_page - INFO - Creating new run.
+2025-10-21 14:01:53,858 - badger.gui.acr.pages.home_page - INFO - Covering page with overlay.
+2025-10-21 14:01:53,859 - badger.gui.acr.pages.home_page - INFO - Updating status: Running routine amaranth-rattlesnake...
+2025-10-21 14:01:53,865 - badger.gui.default.components.routine_runner - INFO - Starting routine run.
+2025-10-21 14:01:53,865 - badger.gui.default.components.routine_runner - INFO - Saving initial variables and emitting env_ready signal.
+2025-10-21 14:01:53,865 - badger.gui.acr.windows.main_window - INFO - Adding subprocess to queue.
+2025-10-21 14:01:53,866 - badger.gui.default.components.create_process - INFO - Creating subprocess with centralized logging
+2025-10-21 14:01:53,867 - badger.gui.default.components.routine_runner - INFO - Setting up QTimer for routine subprocess.
+2025-10-21 14:01:53,874 - badger.gui.acr.pages.home_page - INFO - Uncovering page overlay.
+2025-10-21 14:01:53,875 - badger.gui.acr.pages.home_page - INFO - Toggling lock: True, tab: 1
+2025-10-21 14:01:53,877 - OptWorker-2590 - badger               - INFO     - Subprocess logger configured with level DEBUG
+2025-10-21 14:01:53,877 - OptWorker-2590 - badger.core_subprocess - INFO     - Subprocess started with PID 2590
+2025-10-21 14:01:53,877 - OptWorker-2590 - badger.core_subprocess - INFO     - Initializing settings with config path: /home/gopikab/.config/config.yaml
+2025-10-21 14:01:53,877 - OptWorker-2590 - badger.core_subprocess - INFO     - Waiting for wait_event to be set...
+2025-10-21 14:01:53,880 - OptWorker-2541 - badger.core_subprocess - WARNING  - AttributeError when converting turbo_controller dtype
+2025-10-21 14:01:53,887 - badger.gui.acr.windows.main_window - INFO - Storing prepared subprocess: {'process': <Process name='Process-3' pid=2590 parent=2418 started>, 'stop_event': <Event at 0x7fce9832dbe0 unset>, 'pause_event': <Event at 0x7fce97f626f0 unset>, 'data_queue': <multiprocessing.queues.Queue object at 0x7fce97f627e0>, 'evaluate_queue': (<multiprocessing.connection.Connection object at 0x7fcfe1349d90>, <multiprocessing.connection.Connection object at 0x7fcfe1348440>), 'wait_event': <Event at 0x7fcfe1348170 unset>}
+2025-10-21 14:01:53,891 - badger.gui.acr.windows.main_window - INFO - Cleaning up finished thread.
+2025-10-21 14:01:53,969 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:01:54,063 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:01:54,064 - badger.gui.default.components.routine_runner - DEBUG - Received evaluation results from subprocess.
+2025-10-21 14:01:54,064 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:01:54,065 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:01:54,158 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:01:54,159 - badger.gui.default.components.routine_runner - DEBUG - Received evaluation results from subprocess.
+2025-10-21 14:01:54,159 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:01:54,159 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:01:54,253 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:01:54,254 - badger.gui.default.components.routine_runner - DEBUG - Received evaluation results from subprocess.
+2025-10-21 14:01:54,254 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:01:54,254 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:01:54,348 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:01:54,348 - badger.gui.default.components.routine_runner - DEBUG - Received evaluation results from subprocess.
+2025-10-21 14:01:54,349 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:01:54,349 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:01:54,444 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:01:54,544 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:01:54,645 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:01:54,688 - badger.gui.default.components.routine_runner - INFO - Stopping routine subprocess.
+2025-10-21 14:01:54,801 - badger.gui.default.components.routine_runner - INFO - Closing routine subprocess and stopping timer.
+2025-10-21 14:01:54,802 - badger.gui.acr.pages.home_page - INFO - Toggling lock: False, tab: 1
+2025-10-21 14:01:54,802 - badger.gui.acr.pages.home_page - INFO - Uncovering page overlay.
+2025-10-21 14:01:54,802 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:01:54,803 - badger.routine - INFO - Serializing Routine to JSON.
+2025-10-21 14:01:54,807 - badger.gui.acr.pages.home_page - INFO - Updating run name: sphere_2d-2025-10-21-140153.yaml
+2025-10-21 14:01:54,808 - badger.gui.acr.pages.home_page - INFO - Activating run: None
+2025-10-21 14:01:54,926 - badger.routine - INFO - Validating Routine model from input data.
+2025-10-21 14:01:54,926 - badger.routine - DEBUG - Routine data dict received: ['additional_variables', 'badger_version', 'constraint_formulas', 'critical_constraint_names', 'data', 'description', 'environment', 'formulas', 'generator', 'initial_point_actions', 'initial_points', 'name', 'observable_formulas', 'relative_to_current', 'vocs', 'vrange_hard_limit', 'vrange_limit_options', 'xopt_version']
+2025-10-21 14:01:54,926 - badger.routine - DEBUG - Validating VOCS from dict.
+2025-10-21 14:01:54,926 - badger.routine - DEBUG - Validating generator: expected_improvement
+2025-10-21 14:01:54,927 - badger.routine - DEBUG - Validating and converting data to DataFrame.
+2025-10-21 14:01:54,927 - badger.routine - DEBUG - Adding data to generator.
+2025-10-21 14:01:54,929 - badger.routine - DEBUG - Validating initial_points field.
+2025-10-21 14:01:54,929 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:01:54,937 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:01:54,937 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:01:54,939 - badger.routine - INFO - Serializing Routine to JSON.
+2025-10-21 14:01:54,943 - badger.gui.acr.components.routine_page - INFO - Refreshing UI for routine: amaranth-rattlesnake (silent=True)
+2025-10-21 14:01:54,944 - badger.gui.acr.components.routine_page - INFO - Updating init table (force=False)
+2025-10-21 14:01:54,944 - badger.gui.acr.components.routine_page - INFO - Clearing init table (reset_actions=False)
+2025-10-21 14:01:54,944 - badger.gui.acr.components.routine_page - INFO - Filling current values in init table (record=False)
+2025-10-21 14:01:54,944 - badger.gui.acr.components.routine_page - INFO - Creating environment instance.
+2025-10-21 14:01:54,944 - badger.gui.acr.components.routine_page - INFO - Adding random points in init table (config={'fraction': 0.1, 'method': 0, 'n_points': 3}, record=False)
+2025-10-21 14:01:54,944 - badger.gui.acr.components.routine_page - INFO - Creating environment instance.
+2025-10-21 14:01:54,945 - badger.gui.acr.components.routine_page - INFO - Composing VOCS settings.
+2025-10-21 14:01:54,945 - badger.gui.acr.components.routine_page - INFO - VOCS composed successfully.
+2025-10-21 14:01:54,945 - badger.gui.acr.components.routine_page - INFO - VOCS: variables=[], objectives=['f'], constraints=[], observables=[], critical_constraints=[]
+2025-10-21 14:01:54,947 - badger.gui.acr.components.routine_page - INFO - Toggling relative_to_curr: checked=True, refresh=False
+2025-10-21 14:01:54,947 - badger.gui.acr.components.routine_page - INFO - Composing VOCS settings.
+2025-10-21 14:01:54,948 - badger.gui.acr.components.routine_page - INFO - VOCS composed successfully.
+2025-10-21 14:01:54,948 - badger.gui.acr.components.routine_page - INFO - VOCS: variables=['x0', 'x1'], objectives=['f'], constraints=[], observables=[], critical_constraints=[]
+2025-10-21 14:01:54,964 - badger.gui.acr.pages.home_page - INFO - Activating run: None
+2025-10-21 14:01:55,063 - badger.routine - INFO - Validating Routine model from input data.
+2025-10-21 14:01:55,063 - badger.routine - DEBUG - Routine data dict received: ['additional_variables', 'badger_version', 'constraint_formulas', 'critical_constraint_names', 'data', 'description', 'environment', 'formulas', 'generator', 'initial_point_actions', 'initial_points', 'name', 'observable_formulas', 'relative_to_current', 'vocs', 'vrange_hard_limit', 'vrange_limit_options', 'xopt_version']
+2025-10-21 14:01:55,063 - badger.routine - DEBUG - Validating VOCS from dict.
+2025-10-21 14:01:55,063 - badger.routine - DEBUG - Validating generator: expected_improvement
+2025-10-21 14:01:55,063 - badger.routine - DEBUG - Validating and converting data to DataFrame.
+2025-10-21 14:01:55,064 - badger.routine - DEBUG - Adding data to generator.
+2025-10-21 14:01:55,065 - badger.routine - DEBUG - Validating initial_points field.
+2025-10-21 14:01:55,065 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:01:55,075 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:01:55,075 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:01:55,077 - badger.routine - INFO - Serializing Routine to JSON.
+2025-10-21 14:01:55,081 - badger.gui.acr.components.routine_page - INFO - Refreshing UI for routine: amaranth-rattlesnake (silent=True)
+2025-10-21 14:01:55,082 - badger.gui.acr.components.routine_page - INFO - Updating init table (force=False)
+2025-10-21 14:01:55,082 - badger.gui.acr.components.routine_page - INFO - Clearing init table (reset_actions=False)
+2025-10-21 14:01:55,082 - badger.gui.acr.components.routine_page - INFO - Filling current values in init table (record=False)
+2025-10-21 14:01:55,082 - badger.gui.acr.components.routine_page - INFO - Creating environment instance.
+2025-10-21 14:01:55,082 - badger.gui.acr.components.routine_page - INFO - Adding random points in init table (config={'fraction': 0.1, 'method': 0, 'n_points': 3}, record=False)
+2025-10-21 14:01:55,082 - badger.gui.acr.components.routine_page - INFO - Creating environment instance.
+2025-10-21 14:01:55,083 - badger.gui.acr.components.routine_page - INFO - Composing VOCS settings.
+2025-10-21 14:01:55,083 - badger.gui.acr.components.routine_page - INFO - VOCS composed successfully.
+2025-10-21 14:01:55,083 - badger.gui.acr.components.routine_page - INFO - VOCS: variables=[], objectives=['f'], constraints=[], observables=[], critical_constraints=[]
+2025-10-21 14:01:55,085 - badger.gui.acr.components.routine_page - INFO - Toggling relative_to_curr: checked=True, refresh=False
+2025-10-21 14:01:55,085 - badger.gui.acr.components.routine_page - INFO - Composing VOCS settings.
+2025-10-21 14:01:55,085 - badger.gui.acr.components.routine_page - INFO - VOCS composed successfully.
+2025-10-21 14:01:55,085 - badger.gui.acr.components.routine_page - INFO - VOCS: variables=['x0', 'x1'], objectives=['f'], constraints=[], observables=[], critical_constraints=[]
+2025-10-21 14:01:55,104 - badger.gui.acr.pages.home_page - INFO - Updating status: Archive success: Run data archived to /home/gopikab/.local/share/Badger/archive
+2025-10-21 14:01:55,104 - badger.gui.acr.pages.home_page - INFO - Covering page with overlay.
+2025-10-21 14:01:57,733 - badger.gui.acr.windows.main_window - INFO - Main window close event triggered.
+2025-10-21 14:23:22,303 - badger - INFO - From config: BADGER_LOGGING_LEVEL = DEBUG
+2025-10-21 14:23:22,303 - badger - INFO - From config: BADGER_LOGFILE_PATH = badger.log
+2025-10-21 14:23:22,303 - badger - INFO - args.log: DEBUG
+2025-10-21 14:23:22,303 - badger - INFO - args.log_filepath: badger.log
+2025-10-21 14:23:23,478 - badger.log - INFO - Centralized logging listener started with level DEBUG
+2025-10-21 14:23:23,488 - badger.gui.acr.windows.main_window - INFO - Initializing BadgerMainWindow.
+2025-10-21 14:23:23,490 - badger.gui.acr.windows.main_window - INFO - Adding subprocess to queue.
+2025-10-21 14:23:23,490 - badger.gui.acr.windows.main_window - INFO - Initializing UI.
+2025-10-21 14:23:23,491 - badger.gui.default.components.create_process - INFO - Creating subprocess with centralized logging
+2025-10-21 14:23:23,494 - badger.gui.acr.windows.main_window - INFO - Centering main window.
+2025-10-21 14:23:23,495 - badger.gui.acr.pages.home_page - INFO - Initializing BadgerHomePage.
+2025-10-21 14:23:23,503 - badger.gui.acr.pages.home_page - INFO - Initializing UI for BadgerHomePage.
+2025-10-21 14:23:23,507 - OptWorker-2762 - badger               - INFO     - Subprocess logger configured with level DEBUG
+2025-10-21 14:23:23,508 - OptWorker-2762 - badger.core_subprocess - INFO     - Subprocess started with PID 2762
+2025-10-21 14:23:23,508 - OptWorker-2762 - badger.core_subprocess - INFO     - Initializing settings with config path: /home/gopikab/.config/config.yaml
+2025-10-21 14:23:23,508 - OptWorker-2762 - badger.core_subprocess - INFO     - Waiting for wait_event to be set...
+2025-10-21 14:23:23,571 - badger.gui.acr.components.routine_page - INFO - Initializing BadgerRoutinePage.
+2025-10-21 14:23:23,597 - badger.gui.acr.components.routine_page - INFO - Initializing UI for BadgerRoutinePage.
+2025-10-21 14:23:23,686 - badger.gui.acr.components.routine_page - INFO - Configuring logic for BadgerRoutinePage.
+2025-10-21 14:23:23,686 - badger.gui.acr.components.routine_page - INFO - Toggling relative_to_curr: checked=2, refresh=True
+2025-10-21 14:23:23,686 - badger.gui.acr.components.routine_page - INFO - Composing VOCS settings.
+2025-10-21 14:23:23,686 - badger.gui.acr.components.routine_page - INFO - VOCS composed successfully.
+2025-10-21 14:23:23,687 - badger.gui.acr.components.routine_page - INFO - VOCS: variables=[], objectives=[], constraints=[], observables=[], critical_constraints=[]
+2025-10-21 14:23:23,851 - badger.gui.acr.pages.home_page - INFO - Configuring logic for BadgerHomePage.
+2025-10-21 14:23:23,851 - badger.gui.acr.pages.home_page - INFO - Loading all runs into history browser.
+2025-10-21 14:23:23,852 - badger.gui.acr.pages.home_page - INFO - Initializing home page.
+2025-10-21 14:23:23,852 - badger.gui.acr.components.routine_page - INFO - Generator selected: expected_improvement (index=0)
+2025-10-21 14:23:23,918 - badger.gui.acr.windows.main_window - INFO - Configuring logic.
+2025-10-21 14:23:24,241 - badger.gui.acr.windows.main_window - INFO - Storing prepared subprocess: {'process': <Process name='Process-1' pid=2762 parent=2687 started>, 'stop_event': <Event at 0x7f76463ce0c0 unset>, 'pause_event': <Event at 0x7f76463ce210 unset>, 'data_queue': <multiprocessing.queues.Queue object at 0x7f76463ce360>, 'evaluate_queue': (<multiprocessing.connection.Connection object at 0x7f76463ce630>, <multiprocessing.connection.Connection object at 0x7f76463ce660>), 'wait_event': <Event at 0x7f76463ce690 unset>}
+2025-10-21 14:23:24,250 - badger.gui.acr.windows.main_window - INFO - Cleaning up finished thread.
+2025-10-21 14:23:26,347 - badger.gui.acr.windows.settings_dialog - INFO - Initializing BadgerSettingsDialog.
+2025-10-21 14:23:26,347 - badger.gui.acr.windows.settings_dialog - INFO - Initializing settings dialog UI.
+2025-10-21 14:23:26,360 - badger.gui.acr.windows.settings_dialog - INFO - Configuring logic for settings dialog.
+2025-10-21 14:23:35,639 - badger.gui.acr.components.routine_page - INFO - Environment selected: sphere_2d (index=0)
+2025-10-21 14:23:35,648 - badger.gui.acr.components.routine_page - INFO - Updating init table (force=False)
+2025-10-21 14:23:35,649 - badger.gui.acr.components.routine_page - INFO - No init_table_actions recorded, using default actions.
+2025-10-21 14:23:35,649 - badger.gui.acr.components.routine_page - INFO - Clearing init table (reset_actions=False)
+2025-10-21 14:23:35,649 - badger.gui.acr.components.routine_page - INFO - Filling current values in init table (record=False)
+2025-10-21 14:23:35,649 - badger.gui.acr.components.routine_page - INFO - Creating environment instance.
+2025-10-21 14:23:35,650 - badger.gui.acr.components.routine_page - INFO - Adding random points in init table (config={'method': 0, 'n_points': 3, 'fraction': 0.1}, record=False)
+2025-10-21 14:23:35,650 - badger.gui.acr.components.routine_page - INFO - Creating environment instance.
+2025-10-21 14:23:35,650 - badger.gui.acr.components.routine_page - INFO - Composing VOCS settings.
+2025-10-21 14:23:35,650 - badger.gui.acr.components.routine_page - INFO - VOCS composed successfully.
+2025-10-21 14:23:35,650 - badger.gui.acr.components.routine_page - INFO - VOCS: variables=[], objectives=[], constraints=[], observables=[], critical_constraints=[]
+2025-10-21 14:23:35,652 - badger.gui.acr.components.routine_page - INFO - Creating environment instance.
+2025-10-21 14:23:35,656 - badger.gui.acr.components.routine_page - INFO - Updating init table (force=False)
+2025-10-21 14:23:35,656 - badger.gui.acr.components.routine_page - INFO - Clearing init table (reset_actions=False)
+2025-10-21 14:23:35,656 - badger.gui.acr.components.routine_page - INFO - Filling current values in init table (record=False)
+2025-10-21 14:23:35,656 - badger.gui.acr.components.routine_page - INFO - Creating environment instance.
+2025-10-21 14:23:35,656 - badger.gui.acr.components.routine_page - INFO - Adding random points in init table (config={'method': 0, 'n_points': 3, 'fraction': 0.1}, record=False)
+2025-10-21 14:23:35,656 - badger.gui.acr.components.routine_page - INFO - Creating environment instance.
+2025-10-21 14:23:35,656 - badger.gui.acr.components.routine_page - INFO - Composing VOCS settings.
+2025-10-21 14:23:35,656 - badger.gui.acr.components.routine_page - INFO - VOCS composed successfully.
+2025-10-21 14:23:35,656 - badger.gui.acr.components.routine_page - INFO - VOCS: variables=[], objectives=[], constraints=[], observables=[], critical_constraints=[]
+2025-10-21 14:23:35,657 - badger.gui.acr.components.routine_page - INFO - Clearing init table (reset_actions=False)
+2025-10-21 14:23:35,657 - badger.gui.acr.components.routine_page - INFO - Updating init table (force=False)
+2025-10-21 14:23:35,657 - badger.gui.acr.components.routine_page - INFO - Clearing init table (reset_actions=False)
+2025-10-21 14:23:35,657 - badger.gui.acr.components.routine_page - INFO - Filling current values in init table (record=False)
+2025-10-21 14:23:35,657 - badger.gui.acr.components.routine_page - INFO - Creating environment instance.
+2025-10-21 14:23:35,657 - badger.gui.acr.components.routine_page - INFO - Adding random points in init table (config={'method': 0, 'n_points': 3, 'fraction': 0.1}, record=False)
+2025-10-21 14:23:35,657 - badger.gui.acr.components.routine_page - INFO - Creating environment instance.
+2025-10-21 14:23:35,657 - badger.gui.acr.components.routine_page - INFO - Composing VOCS settings.
+2025-10-21 14:23:35,657 - badger.gui.acr.components.routine_page - INFO - VOCS composed successfully.
+2025-10-21 14:23:35,657 - badger.gui.acr.components.routine_page - INFO - VOCS: variables=[], objectives=[], constraints=[], observables=[], critical_constraints=[]
+2025-10-21 14:23:36,487 - badger.gui.acr.components.routine_page - INFO - Updating init table (force=False)
+2025-10-21 14:23:36,488 - badger.gui.acr.components.routine_page - INFO - Clearing init table (reset_actions=False)
+2025-10-21 14:23:36,488 - badger.gui.acr.components.routine_page - INFO - Filling current values in init table (record=False)
+2025-10-21 14:23:36,488 - badger.gui.acr.components.routine_page - INFO - Creating environment instance.
+2025-10-21 14:23:36,488 - badger.gui.acr.components.routine_page - INFO - Adding random points in init table (config={'method': 0, 'n_points': 3, 'fraction': 0.1}, record=False)
+2025-10-21 14:23:36,488 - badger.gui.acr.components.routine_page - INFO - Creating environment instance.
+2025-10-21 14:23:36,488 - badger.gui.acr.components.routine_page - INFO - Composing VOCS settings.
+2025-10-21 14:23:36,488 - badger.gui.acr.components.routine_page - INFO - VOCS composed successfully.
+2025-10-21 14:23:36,488 - badger.gui.acr.components.routine_page - INFO - VOCS: variables=['x0'], objectives=[], constraints=[], observables=[], critical_constraints=[]
+2025-10-21 14:23:36,907 - badger.gui.acr.components.routine_page - INFO - Updating init table (force=False)
+2025-10-21 14:23:36,908 - badger.gui.acr.components.routine_page - INFO - Clearing init table (reset_actions=False)
+2025-10-21 14:23:36,908 - badger.gui.acr.components.routine_page - INFO - Filling current values in init table (record=False)
+2025-10-21 14:23:36,908 - badger.gui.acr.components.routine_page - INFO - Creating environment instance.
+2025-10-21 14:23:36,908 - badger.gui.acr.components.routine_page - INFO - Adding random points in init table (config={'method': 0, 'n_points': 3, 'fraction': 0.1}, record=False)
+2025-10-21 14:23:36,908 - badger.gui.acr.components.routine_page - INFO - Creating environment instance.
+2025-10-21 14:23:36,908 - badger.gui.acr.components.routine_page - INFO - Composing VOCS settings.
+2025-10-21 14:23:36,908 - badger.gui.acr.components.routine_page - INFO - VOCS composed successfully.
+2025-10-21 14:23:36,909 - badger.gui.acr.components.routine_page - INFO - VOCS: variables=['x0', 'x1'], objectives=[], constraints=[], observables=[], critical_constraints=[]
+2025-10-21 14:23:39,922 - badger.gui.acr.pages.home_page - INFO - Starting run.
+2025-10-21 14:23:39,922 - badger.gui.acr.pages.home_page - INFO - Preparing new run.
+2025-10-21 14:23:39,922 - badger.gui.acr.components.routine_page - INFO - Composing routine from GUI state.
+2025-10-21 14:23:39,923 - badger.gui.acr.components.routine_page - DEBUG - Generator selected: expected_improvement, params: {'turbo_controller': None, 'numerical_optimizer': {'name': 'LBFGS', 'n_restarts': 20, 'max_iter': 2000, 'max_time': 5.0}, 'max_travel_distances': None}
+2025-10-21 14:23:39,923 - badger.gui.acr.components.routine_page - DEBUG - Environment selected: sphere_2d, params: {}
+2025-10-21 14:23:39,923 - badger.gui.acr.components.routine_page - INFO - Composing VOCS settings.
+2025-10-21 14:23:39,923 - badger.gui.acr.components.routine_page - INFO - VOCS composed successfully.
+2025-10-21 14:23:39,923 - badger.gui.acr.components.routine_page - INFO - VOCS: variables=['x0', 'x1'], objectives=['f'], constraints=[], observables=[], critical_constraints=[]
+2025-10-21 14:23:39,923 - badger.gui.acr.components.routine_page - DEBUG - VOCS composed: variables=['x0', 'x1'], objectives=['f'], constraints=[]
+2025-10-21 14:23:39,926 - badger.gui.acr.components.routine_page - DEBUG - Routine is set to use relative to current variable ranges.
+2025-10-21 14:23:39,926 - badger.gui.acr.components.routine_page - INFO - Generator instance created: expected_improvement
+2025-10-21 14:23:39,930 - badger.routine - INFO - Validating Routine model from input data.
+2025-10-21 14:23:39,930 - badger.routine - DEBUG - Routine data dict received: ['badger_version', 'xopt_version', 'vocs', 'generator', 'name', 'description', 'environment', 'initial_points', 'critical_constraint_names', 'tags', 'script', 'relative_to_current', 'vrange_limit_options', 'vrange_hard_limit', 'initial_point_actions', 'additional_variables', 'formulas', 'constraint_formulas', 'observable_formulas']
+2025-10-21 14:23:39,933 - badger.routine - DEBUG - Validating initial_points field.
+2025-10-21 14:23:39,933 - badger.gui.acr.components.routine_page - INFO - Routine composed successfully: loutish-lyrebird
+2025-10-21 14:23:39,934 - badger.routine - INFO - Serializing Routine to JSON.
+2025-10-21 14:23:39,943 - badger.gui.acr.pages.home_page - INFO - Creating new run.
+2025-10-21 14:23:39,944 - badger.gui.acr.pages.home_page - INFO - Covering page with overlay.
+2025-10-21 14:23:39,944 - badger.gui.acr.pages.home_page - INFO - Updating status: Running routine loutish-lyrebird...
+2025-10-21 14:23:39,951 - badger.gui.default.components.routine_runner - INFO - Starting routine run.
+2025-10-21 14:23:39,951 - badger.gui.default.components.routine_runner - INFO - Saving initial variables and emitting env_ready signal.
+2025-10-21 14:23:39,951 - badger.gui.acr.windows.main_window - INFO - Adding subprocess to queue.
+2025-10-21 14:23:39,953 - badger.gui.default.components.create_process - INFO - Creating subprocess with centralized logging
+2025-10-21 14:23:39,953 - badger.gui.default.components.routine_runner - INFO - Setting up QTimer for routine subprocess.
+2025-10-21 14:23:39,959 - OptWorker-2762 - badger.core_subprocess - DEBUG    - Received args from queue: {'routine_id': None, 'routine_filename': '.tmp-BadgerOpt-2025-10-21-142339.yaml', 'routine_name': 'loutish-lyrebird', 'variable_ranges': {'x0': [0.475, 0.525], 'x1': [0.475, 0.525]}, 'initial_points':          x0        x1
+0  0.500000  0.500000
+1  0.504561  0.495863
+2  0.502965  0.502919
+3  0.500670  0.502596, 'evaluate': True, 'archive': True, 'termination_condition': None, 'start_time': 1761081819.951807, 'testing': False}
+2025-10-21 14:23:39,960 - badger.gui.acr.pages.home_page - INFO - Uncovering page overlay.
+2025-10-21 14:23:39,960 - OptWorker-2762 - badger.core_subprocess - INFO     - Loading routine from file: .tmp-BadgerOpt-2025-10-21-142339.yaml
+2025-10-21 14:23:39,961 - badger.gui.acr.pages.home_page - INFO - Toggling lock: True, tab: 1
+2025-10-21 14:23:39,963 - OptWorker-2821 - badger               - INFO     - Subprocess logger configured with level DEBUG
+2025-10-21 14:23:39,963 - OptWorker-2821 - badger.core_subprocess - INFO     - Subprocess started with PID 2821
+2025-10-21 14:23:39,964 - OptWorker-2821 - badger.core_subprocess - INFO     - Initializing settings with config path: /home/gopikab/.config/config.yaml
+2025-10-21 14:23:39,964 - OptWorker-2821 - badger.core_subprocess - INFO     - Waiting for wait_event to be set...
+2025-10-21 14:23:39,964 - OptWorker-2762 - badger.routine       - INFO     - Validating Routine model from input data.
+2025-10-21 14:23:39,964 - OptWorker-2762 - badger.routine       - DEBUG    - Routine data dict received: ['additional_variables', 'badger_version', 'constraint_formulas', 'critical_constraint_names', 'description', 'environment', 'formulas', 'generator', 'initial_point_actions', 'initial_points', 'name', 'observable_formulas', 'relative_to_current', 'vocs', 'vrange_hard_limit', 'vrange_limit_options', 'xopt_version']
+2025-10-21 14:23:39,964 - OptWorker-2762 - badger.routine       - DEBUG    - Validating VOCS from dict.
+2025-10-21 14:23:39,964 - OptWorker-2762 - badger.routine       - DEBUG    - Validating generator: expected_improvement
+2025-10-21 14:23:39,973 - badger.gui.acr.windows.main_window - INFO - Storing prepared subprocess: {'process': <Process name='Process-2' pid=2821 parent=2687 started>, 'stop_event': <Event at 0x7f778f32db50 unset>, 'pause_event': <Event at 0x7f778f1918b0 unset>, 'data_queue': <multiprocessing.queues.Queue object at 0x7f778f191a30>, 'evaluate_queue': (<multiprocessing.connection.Connection object at 0x7f778f191bb0>, <multiprocessing.connection.Connection object at 0x7f778f191c10>), 'wait_event': <Event at 0x7f778f191c40 unset>}
+2025-10-21 14:23:39,973 - badger.gui.acr.windows.main_window - INFO - Cleaning up finished thread.
+2025-10-21 14:23:39,975 - OptWorker-2762 - badger.routine       - DEBUG    - Validating initial_points field.
+2025-10-21 14:23:39,976 - OptWorker-2762 - badger.core_subprocess - INFO     - Resetting environment global state
+2025-10-21 14:23:39,976 - OptWorker-2762 - badger.core_subprocess - WARNING  - AttributeError when converting turbo_controller dtype
+2025-10-21 14:23:39,976 - OptWorker-2762 - badger.core_subprocess - INFO     - Setting routine variable ranges: {'x0': [0.475, 0.525], 'x1': [0.475, 0.525]}
+2025-10-21 14:23:39,976 - OptWorker-2762 - badger.core_subprocess - INFO     - Setting routine initial points
+2025-10-21 14:23:39,976 - OptWorker-2762 - badger.core_subprocess - INFO     - Getting default logger with verbosity: 2
+2025-10-21 14:23:39,976 - OptWorker-2762 - badger.core_subprocess - INFO     - Optimization started
+2025-10-21 14:23:39,976 - OptWorker-2762 - badger.core_subprocess - INFO     - Evaluating initial points...
+2025-10-21 14:23:39,976 - OptWorker-2762 - badger.core_subprocess - DEBUG    - Evaluating initial point: {'x0': 0.5, 'x1': 0.5}
+2025-10-21 14:23:39,979 - OptWorker-2762 - badger.routine       - DEBUG    - Evaluating point: {'x0': 0.5, 'x1': 0.5}
+2025-10-21 14:23:39,979 - OptWorker-2762 - badger.routine       - DEBUG    - Evaluation result: {'f': 0.5, 'timestamp': 1761081819.979804}
+2025-10-21 14:23:39,980 - OptWorker-2762 - badger.routine       - DEBUG    - Sorting routine data.
+2025-10-21 14:23:39,983 - OptWorker-2762 - badger.core_subprocess - DEBUG    - Selected best index: [0]
+2025-10-21 14:23:40,055 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:23:40,086 - OptWorker-2762 - badger.core_subprocess - DEBUG    - Evaluating initial point: {'x0': 0.504561, 'x1': 0.495863}
+2025-10-21 14:23:40,088 - OptWorker-2762 - badger.routine       - DEBUG    - Evaluating point: {'x0': 0.504561, 'x1': 0.495863}
+2025-10-21 14:23:40,088 - OptWorker-2762 - badger.routine       - DEBUG    - Evaluation result: {'f': 0.50046191749, 'timestamp': 1761081820.088425}
+2025-10-21 14:23:40,089 - OptWorker-2762 - badger.routine       - DEBUG    - Sorting routine data.
+2025-10-21 14:23:40,091 - OptWorker-2762 - badger.core_subprocess - DEBUG    - Selected best index: [0]
+2025-10-21 14:23:40,150 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:23:40,151 - badger.gui.default.components.routine_runner - DEBUG - Received evaluation results from subprocess.
+2025-10-21 14:23:40,152 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:23:40,153 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:23:40,192 - OptWorker-2762 - badger.core_subprocess - DEBUG    - Evaluating initial point: {'x0': 0.502965, 'x1': 0.502919}
+2025-10-21 14:23:40,193 - OptWorker-2762 - badger.routine       - DEBUG    - Evaluating point: {'x0': 0.502965, 'x1': 0.502919}
+2025-10-21 14:23:40,193 - OptWorker-2762 - badger.routine       - DEBUG    - Evaluation result: {'f': 0.5059013117860001, 'timestamp': 1761081820.193726}
+2025-10-21 14:23:40,194 - OptWorker-2762 - badger.routine       - DEBUG    - Sorting routine data.
+2025-10-21 14:23:40,196 - OptWorker-2762 - badger.core_subprocess - DEBUG    - Selected best index: [0]
+2025-10-21 14:23:40,245 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:23:40,246 - badger.gui.default.components.routine_runner - DEBUG - Received evaluation results from subprocess.
+2025-10-21 14:23:40,246 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:23:40,247 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:23:40,298 - OptWorker-2762 - badger.core_subprocess - DEBUG    - Evaluating initial point: {'x0': 0.50067, 'x1': 0.502596}
+2025-10-21 14:23:40,299 - OptWorker-2762 - badger.routine       - DEBUG    - Evaluating point: {'x0': 0.50067, 'x1': 0.502596}
+2025-10-21 14:23:40,299 - OptWorker-2762 - badger.routine       - DEBUG    - Evaluation result: {'f': 0.503273188116, 'timestamp': 1761081820.299548}
+2025-10-21 14:23:40,300 - OptWorker-2762 - badger.routine       - DEBUG    - Sorting routine data.
+2025-10-21 14:23:40,302 - OptWorker-2762 - badger.core_subprocess - DEBUG    - Selected best index: [0]
+2025-10-21 14:23:40,344 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:23:40,345 - badger.gui.default.components.routine_runner - DEBUG - Received evaluation results from subprocess.
+2025-10-21 14:23:40,345 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:23:40,345 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:23:40,404 - OptWorker-2762 - badger.core_subprocess - INFO     - Starting optimization loop...
+2025-10-21 14:23:40,445 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:23:40,446 - badger.gui.default.components.routine_runner - DEBUG - Received evaluation results from subprocess.
+2025-10-21 14:23:40,446 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:23:40,447 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:23:40,545 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:23:40,644 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:23:40,687 - badger.gui.default.components.routine_runner - INFO - Stopping routine subprocess.
+2025-10-21 14:23:40,799 - badger.gui.default.components.routine_runner - INFO - Closing routine subprocess and stopping timer.
+2025-10-21 14:23:40,799 - badger.gui.acr.pages.home_page - INFO - Toggling lock: False, tab: 1
+2025-10-21 14:23:40,800 - badger.gui.acr.pages.home_page - INFO - Uncovering page overlay.
+2025-10-21 14:23:40,800 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:23:40,801 - badger.routine - INFO - Serializing Routine to JSON.
+2025-10-21 14:23:40,806 - badger.gui.acr.pages.home_page - INFO - Updating run name: sphere_2d-2025-10-21-142339.yaml
+2025-10-21 14:23:40,807 - badger.gui.acr.pages.home_page - INFO - Activating run: None
+2025-10-21 14:23:40,970 - badger.routine - INFO - Validating Routine model from input data.
+2025-10-21 14:23:40,970 - badger.routine - DEBUG - Routine data dict received: ['additional_variables', 'badger_version', 'constraint_formulas', 'critical_constraint_names', 'data', 'description', 'environment', 'formulas', 'generator', 'initial_point_actions', 'initial_points', 'name', 'observable_formulas', 'relative_to_current', 'vocs', 'vrange_hard_limit', 'vrange_limit_options', 'xopt_version']
+2025-10-21 14:23:40,970 - badger.routine - DEBUG - Validating VOCS from dict.
+2025-10-21 14:23:40,971 - badger.routine - DEBUG - Validating generator: expected_improvement
+2025-10-21 14:23:40,971 - badger.routine - DEBUG - Validating and converting data to DataFrame.
+2025-10-21 14:23:40,972 - badger.routine - DEBUG - Adding data to generator.
+2025-10-21 14:23:40,973 - badger.routine - DEBUG - Validating initial_points field.
+2025-10-21 14:23:40,974 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:23:40,983 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:23:40,983 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:23:40,986 - badger.routine - INFO - Serializing Routine to JSON.
+2025-10-21 14:23:40,990 - badger.gui.acr.components.routine_page - INFO - Refreshing UI for routine: loutish-lyrebird (silent=True)
+2025-10-21 14:23:40,994 - badger.gui.acr.components.routine_page - INFO - Updating init table (force=False)
+2025-10-21 14:23:40,994 - badger.gui.acr.components.routine_page - INFO - Clearing init table (reset_actions=False)
+2025-10-21 14:23:40,994 - badger.gui.acr.components.routine_page - INFO - Filling current values in init table (record=False)
+2025-10-21 14:23:40,994 - badger.gui.acr.components.routine_page - INFO - Creating environment instance.
+2025-10-21 14:23:40,994 - badger.gui.acr.components.routine_page - INFO - Adding random points in init table (config={'method': 0, 'n_points': 3, 'fraction': 0.1}, record=False)
+2025-10-21 14:23:40,994 - badger.gui.acr.components.routine_page - INFO - Creating environment instance.
+2025-10-21 14:23:40,994 - badger.gui.acr.components.routine_page - INFO - Composing VOCS settings.
+2025-10-21 14:23:40,995 - badger.gui.acr.components.routine_page - INFO - VOCS composed successfully.
+2025-10-21 14:23:40,995 - badger.gui.acr.components.routine_page - INFO - VOCS: variables=[], objectives=['f'], constraints=[], observables=[], critical_constraints=[]
+2025-10-21 14:23:40,997 - badger.gui.acr.components.routine_page - INFO - Toggling relative_to_curr: checked=True, refresh=False
+2025-10-21 14:23:40,997 - badger.gui.acr.components.routine_page - INFO - Composing VOCS settings.
+2025-10-21 14:23:40,997 - badger.gui.acr.components.routine_page - INFO - VOCS composed successfully.
+2025-10-21 14:23:40,997 - badger.gui.acr.components.routine_page - INFO - VOCS: variables=['x0', 'x1'], objectives=['f'], constraints=[], observables=[], critical_constraints=[]
+2025-10-21 14:23:41,018 - badger.gui.acr.pages.home_page - INFO - Updating status: Archive success: Run data archived to /home/gopikab/.local/share/Badger/archive
+2025-10-21 14:23:41,018 - badger.gui.acr.pages.home_page - INFO - Covering page with overlay.
+2025-10-21 14:24:06,622 - badger.gui.acr.windows.settings_dialog - INFO - Initializing BadgerSettingsDialog.
+2025-10-21 14:24:06,623 - badger.gui.acr.windows.settings_dialog - INFO - Initializing settings dialog UI.
+2025-10-21 14:24:06,625 - badger.gui.acr.windows.settings_dialog - INFO - Configuring logic for settings dialog.
+2025-10-21 14:24:10,665 - badger.gui.acr.windows.settings_dialog - INFO - Applying settings.
+2025-10-21 14:24:22,765 - badger.gui.acr.windows.settings_dialog - INFO - Logger level changed to 10
+2025-10-21 14:24:22,765 - badger.log - INFO - Log level updated to DEBUG for all handlers
+2025-10-21 14:24:22,765 - badger.gui.acr.windows.settings_dialog - INFO - Logger level changed to DEBUG across all processes
+2025-10-21 14:24:24,314 - badger.gui.acr.pages.home_page - INFO - Starting run.
+2025-10-21 14:24:24,315 - badger.gui.acr.pages.home_page - INFO - Preparing new run.
+2025-10-21 14:24:24,315 - badger.gui.acr.components.routine_page - INFO - Composing routine from GUI state.
+2025-10-21 14:24:24,315 - badger.gui.acr.components.routine_page - DEBUG - Generator selected: expected_improvement, params: {'turbo_controller': None, 'numerical_optimizer': {'name': 'LBFGS', 'n_restarts': 20, 'max_iter': 2000, 'max_time': 5.0}, 'max_travel_distances': None}
+2025-10-21 14:24:24,315 - badger.gui.acr.components.routine_page - DEBUG - Environment selected: sphere_2d, params: {}
+2025-10-21 14:24:24,315 - badger.gui.acr.components.routine_page - INFO - Composing VOCS settings.
+2025-10-21 14:24:24,315 - badger.gui.acr.components.routine_page - INFO - VOCS composed successfully.
+2025-10-21 14:24:24,315 - badger.gui.acr.components.routine_page - INFO - VOCS: variables=['x0', 'x1'], objectives=['f'], constraints=[], observables=[], critical_constraints=[]
+2025-10-21 14:24:24,316 - badger.gui.acr.components.routine_page - DEBUG - VOCS composed: variables=['x0', 'x1'], objectives=['f'], constraints=[]
+2025-10-21 14:24:24,317 - badger.gui.acr.components.routine_page - DEBUG - Routine is set to use relative to current variable ranges.
+2025-10-21 14:24:24,318 - badger.gui.acr.components.routine_page - INFO - Generator instance created: expected_improvement
+2025-10-21 14:24:24,322 - badger.routine - INFO - Validating Routine model from input data.
+2025-10-21 14:24:24,322 - badger.routine - DEBUG - Routine data dict received: ['badger_version', 'xopt_version', 'vocs', 'generator', 'name', 'description', 'environment', 'initial_points', 'critical_constraint_names', 'tags', 'script', 'relative_to_current', 'vrange_limit_options', 'vrange_hard_limit', 'initial_point_actions', 'additional_variables', 'formulas', 'constraint_formulas', 'observable_formulas']
+2025-10-21 14:24:24,323 - badger.routine - DEBUG - Validating initial_points field.
+2025-10-21 14:24:24,323 - badger.gui.acr.components.routine_page - INFO - Routine composed successfully: loutish-lyrebird
+2025-10-21 14:24:24,323 - badger.routine - INFO - Serializing Routine to JSON.
+2025-10-21 14:24:24,334 - badger.gui.acr.pages.home_page - INFO - Creating new run.
+2025-10-21 14:24:24,334 - badger.gui.acr.pages.home_page - INFO - Covering page with overlay.
+2025-10-21 14:24:24,335 - badger.gui.acr.pages.home_page - INFO - Updating status: Running routine loutish-lyrebird...
+2025-10-21 14:24:24,341 - badger.gui.default.components.routine_runner - INFO - Starting routine run.
+2025-10-21 14:24:24,342 - badger.gui.default.components.routine_runner - INFO - Saving initial variables and emitting env_ready signal.
+2025-10-21 14:24:24,342 - badger.gui.acr.windows.main_window - INFO - Adding subprocess to queue.
+2025-10-21 14:24:24,343 - badger.gui.default.components.create_process - INFO - Creating subprocess with centralized logging
+2025-10-21 14:24:24,343 - badger.gui.default.components.routine_runner - INFO - Setting up QTimer for routine subprocess.
+2025-10-21 14:24:24,352 - badger.gui.acr.pages.home_page - INFO - Uncovering page overlay.
+2025-10-21 14:24:24,354 - badger.gui.acr.pages.home_page - INFO - Toggling lock: True, tab: 1
+2025-10-21 14:24:24,356 - OptWorker-3037 - badger               - INFO     - Subprocess logger configured with level DEBUG
+2025-10-21 14:24:24,356 - OptWorker-3037 - badger.core_subprocess - INFO     - Subprocess started with PID 3037
+2025-10-21 14:24:24,356 - OptWorker-3037 - badger.core_subprocess - INFO     - Initializing settings with config path: /home/gopikab/.config/config.yaml
+2025-10-21 14:24:24,356 - OptWorker-3037 - badger.core_subprocess - INFO     - Waiting for wait_event to be set...
+2025-10-21 14:24:24,373 - badger.gui.acr.windows.main_window - INFO - Storing prepared subprocess: {'process': <Process name='Process-4' pid=3037 parent=2687 started>, 'stop_event': <Event at 0x7f7646a94b00 unset>, 'pause_event': <Event at 0x7f778f191d30 unset>, 'data_queue': <multiprocessing.queues.Queue object at 0x7f778f1919d0>, 'evaluate_queue': (<multiprocessing.connection.Connection object at 0x7f778f191670>, <multiprocessing.connection.Connection object at 0x7f778f191700>), 'wait_event': <Event at 0x7f778f190aa0 unset>}
+2025-10-21 14:24:24,378 - badger.gui.acr.windows.main_window - INFO - Cleaning up finished thread.
+2025-10-21 14:24:24,447 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:24:24,545 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:24:24,546 - badger.gui.default.components.routine_runner - DEBUG - Received evaluation results from subprocess.
+2025-10-21 14:24:24,546 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:24:24,547 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:24:24,644 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:24:24,645 - badger.gui.default.components.routine_runner - DEBUG - Received evaluation results from subprocess.
+2025-10-21 14:24:24,645 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:24:24,645 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:24:24,745 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:24:24,745 - badger.gui.default.components.routine_runner - DEBUG - Received evaluation results from subprocess.
+2025-10-21 14:24:24,745 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:24:24,746 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:24:24,844 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:24:24,845 - badger.gui.default.components.routine_runner - DEBUG - Received evaluation results from subprocess.
+2025-10-21 14:24:24,845 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:24:24,846 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:24:24,944 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:24:25,044 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:24:25,145 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:24:25,244 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:24:25,345 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:24:25,355 - badger.gui.default.components.routine_runner - DEBUG - Received evaluation results from subprocess.
+2025-10-21 14:24:25,355 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:24:25,356 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:24:25,444 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:24:25,544 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:24:25,553 - badger.gui.default.components.routine_runner - DEBUG - Received evaluation results from subprocess.
+2025-10-21 14:24:25,553 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:24:25,553 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:24:25,644 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:24:25,662 - badger.gui.default.components.routine_runner - DEBUG - Received evaluation results from subprocess.
+2025-10-21 14:24:25,662 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:24:25,662 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:24:25,744 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:24:25,844 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:24:25,852 - badger.gui.default.components.routine_runner - DEBUG - Received evaluation results from subprocess.
+2025-10-21 14:24:25,852 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:24:25,853 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:24:25,944 - badger.gui.default.components.routine_runner - DEBUG - Checking subprocess queues for updates.
+2025-10-21 14:24:25,959 - badger.gui.default.components.routine_runner - DEBUG - Received evaluation results from subprocess.
+2025-10-21 14:24:25,959 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:24:25,960 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:24:26,009 - badger.gui.default.components.routine_runner - INFO - Stopping routine subprocess.
+2025-10-21 14:24:26,090 - badger.gui.default.components.routine_runner - INFO - Closing routine subprocess and stopping timer.
+2025-10-21 14:24:26,091 - badger.gui.acr.pages.home_page - INFO - Toggling lock: False, tab: 1
+2025-10-21 14:24:26,091 - badger.gui.acr.pages.home_page - INFO - Uncovering page overlay.
+2025-10-21 14:24:26,091 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:24:26,092 - badger.routine - INFO - Serializing Routine to JSON.
+2025-10-21 14:24:26,098 - badger.gui.acr.pages.home_page - INFO - Updating run name: sphere_2d-2025-10-21-142424.yaml
+2025-10-21 14:24:26,098 - badger.gui.acr.pages.home_page - INFO - Activating run: None
+2025-10-21 14:24:26,269 - badger.routine - INFO - Validating Routine model from input data.
+2025-10-21 14:24:26,269 - badger.routine - DEBUG - Routine data dict received: ['additional_variables', 'badger_version', 'constraint_formulas', 'critical_constraint_names', 'data', 'description', 'environment', 'formulas', 'generator', 'initial_point_actions', 'initial_points', 'name', 'observable_formulas', 'relative_to_current', 'vocs', 'vrange_hard_limit', 'vrange_limit_options', 'xopt_version']
+2025-10-21 14:24:26,269 - badger.routine - DEBUG - Validating VOCS from dict.
+2025-10-21 14:24:26,269 - badger.routine - DEBUG - Validating generator: expected_improvement
+2025-10-21 14:24:26,270 - badger.routine - DEBUG - Validating and converting data to DataFrame.
+2025-10-21 14:24:26,271 - badger.routine - DEBUG - Adding data to generator.
+2025-10-21 14:24:26,272 - badger.routine - DEBUG - Validating initial_points field.
+2025-10-21 14:24:26,272 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:24:26,282 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:24:26,282 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:24:26,285 - badger.routine - INFO - Serializing Routine to JSON.
+2025-10-21 14:24:26,291 - badger.gui.acr.components.routine_page - INFO - Refreshing UI for routine: loutish-lyrebird (silent=True)
+2025-10-21 14:24:26,293 - badger.gui.acr.components.routine_page - INFO - Updating init table (force=False)
+2025-10-21 14:24:26,293 - badger.gui.acr.components.routine_page - INFO - Clearing init table (reset_actions=False)
+2025-10-21 14:24:26,293 - badger.gui.acr.components.routine_page - INFO - Filling current values in init table (record=False)
+2025-10-21 14:24:26,293 - badger.gui.acr.components.routine_page - INFO - Creating environment instance.
+2025-10-21 14:24:26,294 - badger.gui.acr.components.routine_page - INFO - Adding random points in init table (config={'fraction': 0.1, 'method': 0, 'n_points': 3}, record=False)
+2025-10-21 14:24:26,294 - badger.gui.acr.components.routine_page - INFO - Creating environment instance.
+2025-10-21 14:24:26,294 - badger.gui.acr.components.routine_page - INFO - Composing VOCS settings.
+2025-10-21 14:24:26,294 - badger.gui.acr.components.routine_page - INFO - VOCS composed successfully.
+2025-10-21 14:24:26,294 - badger.gui.acr.components.routine_page - INFO - VOCS: variables=[], objectives=['f'], constraints=[], observables=[], critical_constraints=[]
+2025-10-21 14:24:26,299 - badger.gui.acr.components.routine_page - INFO - Toggling relative_to_curr: checked=True, refresh=False
+2025-10-21 14:24:26,299 - badger.gui.acr.components.routine_page - INFO - Composing VOCS settings.
+2025-10-21 14:24:26,299 - badger.gui.acr.components.routine_page - INFO - VOCS composed successfully.
+2025-10-21 14:24:26,299 - badger.gui.acr.components.routine_page - INFO - VOCS: variables=['x0', 'x1'], objectives=['f'], constraints=[], observables=[], critical_constraints=[]
+2025-10-21 14:24:26,317 - badger.gui.acr.pages.home_page - INFO - Activating run: None
+2025-10-21 14:24:26,479 - badger.routine - INFO - Validating Routine model from input data.
+2025-10-21 14:24:26,479 - badger.routine - DEBUG - Routine data dict received: ['additional_variables', 'badger_version', 'constraint_formulas', 'critical_constraint_names', 'data', 'description', 'environment', 'formulas', 'generator', 'initial_point_actions', 'initial_points', 'name', 'observable_formulas', 'relative_to_current', 'vocs', 'vrange_hard_limit', 'vrange_limit_options', 'xopt_version']
+2025-10-21 14:24:26,479 - badger.routine - DEBUG - Validating VOCS from dict.
+2025-10-21 14:24:26,479 - badger.routine - DEBUG - Validating generator: expected_improvement
+2025-10-21 14:24:26,479 - badger.routine - DEBUG - Validating and converting data to DataFrame.
+2025-10-21 14:24:26,480 - badger.routine - DEBUG - Adding data to generator.
+2025-10-21 14:24:26,482 - badger.routine - DEBUG - Validating initial_points field.
+2025-10-21 14:24:26,482 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:24:26,495 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:24:26,495 - badger.routine - DEBUG - Sorting routine data.
+2025-10-21 14:24:26,497 - badger.routine - INFO - Serializing Routine to JSON.
+2025-10-21 14:24:26,503 - badger.gui.acr.components.routine_page - INFO - Refreshing UI for routine: loutish-lyrebird (silent=True)
+2025-10-21 14:24:26,504 - badger.gui.acr.components.routine_page - INFO - Updating init table (force=False)
+2025-10-21 14:24:26,504 - badger.gui.acr.components.routine_page - INFO - Clearing init table (reset_actions=False)
+2025-10-21 14:24:26,504 - badger.gui.acr.components.routine_page - INFO - Filling current values in init table (record=False)
+2025-10-21 14:24:26,504 - badger.gui.acr.components.routine_page - INFO - Creating environment instance.
+2025-10-21 14:24:26,505 - badger.gui.acr.components.routine_page - INFO - Adding random points in init table (config={'fraction': 0.1, 'method': 0, 'n_points': 3}, record=False)
+2025-10-21 14:24:26,505 - badger.gui.acr.components.routine_page - INFO - Creating environment instance.
+2025-10-21 14:24:26,505 - badger.gui.acr.components.routine_page - INFO - Composing VOCS settings.
+2025-10-21 14:24:26,505 - badger.gui.acr.components.routine_page - INFO - VOCS composed successfully.
+2025-10-21 14:24:26,505 - badger.gui.acr.components.routine_page - INFO - VOCS: variables=[], objectives=['f'], constraints=[], observables=[], critical_constraints=[]
+2025-10-21 14:24:26,508 - badger.gui.acr.components.routine_page - INFO - Toggling relative_to_curr: checked=True, refresh=False
+2025-10-21 14:24:26,508 - badger.gui.acr.components.routine_page - INFO - Composing VOCS settings.
+2025-10-21 14:24:26,508 - badger.gui.acr.components.routine_page - INFO - VOCS composed successfully.
+2025-10-21 14:24:26,508 - badger.gui.acr.components.routine_page - INFO - VOCS: variables=['x0', 'x1'], objectives=['f'], constraints=[], observables=[], critical_constraints=[]
+2025-10-21 14:24:26,528 - badger.gui.acr.pages.home_page - INFO - Updating status: Archive success: Run data archived to /home/gopikab/.local/share/Badger/archive
+2025-10-21 14:24:26,529 - badger.gui.acr.pages.home_page - INFO - Covering page with overlay.
+2025-10-21 14:24:28,717 - badger.gui.acr.windows.settings_dialog - INFO - Initializing BadgerSettingsDialog.
+2025-10-21 14:24:28,718 - badger.gui.acr.windows.settings_dialog - INFO - Initializing settings dialog UI.
+2025-10-21 14:24:28,720 - badger.gui.acr.windows.settings_dialog - INFO - Configuring logic for settings dialog.
+2025-10-21 14:25:51,437 - badger.gui.acr.windows.settings_dialog - INFO - Applying settings.
+2025-10-21 14:25:51,447 - badger.log - INFO - Setting logger badger to level DEBUG
+2025-10-21 14:25:51,447 - badger.log - INFO - Setting logger badger.utils to level DEBUG
+2025-10-21 14:25:51,447 - badger.log - INFO - Setting logger badger.settings to level DEBUG
+2025-10-21 14:25:51,447 - badger.log - INFO - Setting logger badger.actions.config to level DEBUG
+2025-10-21 14:25:51,447 - badger.log - INFO - Setting logger badger.actions.routine to level DEBUG
+2025-10-21 14:25:51,447 - badger.log - INFO - Setting logger badger.actions.generator to level DEBUG
+2025-10-21 14:25:51,447 - badger.log - INFO - Setting logger badger.actions.env to level DEBUG
+2025-10-21 14:25:51,447 - badger.log - INFO - Setting logger badger.actions.install to level DEBUG
+2025-10-21 14:25:51,447 - badger.log - INFO - Setting logger badger.actions.uninstall to level DEBUG
+2025-10-21 14:25:51,447 - badger.log - INFO - Setting logger badger.actions.intf to level DEBUG
+2025-10-21 14:25:51,447 - badger.log - INFO - Setting logger badger.factory to level DEBUG
+2025-10-21 14:25:51,447 - badger.log - INFO - Setting logger badger.routine to level DEBUG
+2025-10-21 14:25:51,447 - badger.log - INFO - Setting logger badger.actions.run to level DEBUG
+2025-10-21 14:25:51,447 - badger.log - INFO - Setting logger badger.log to level DEBUG
+2025-10-21 14:25:51,448 - badger.log - INFO - Setting logger badger.core_subprocess to level DEBUG
+2025-10-21 14:25:51,448 - badger.log - INFO - Setting logger badger.gui.default.components.create_process to level DEBUG
+2025-10-21 14:25:51,448 - badger.log - INFO - Setting logger badger.archive to level DEBUG
+2025-10-21 14:25:51,448 - badger.log - INFO - Setting logger badger.db to level DEBUG
+2025-10-21 14:25:51,448 - badger.log - INFO - Setting logger badger.gui.default.components.extension_utilities to level DEBUG
+2025-10-21 14:25:51,448 - badger.log - INFO - Setting logger badger.gui.default.components.analysis_widget to level DEBUG
+2025-10-21 14:25:51,448 - badger.log - INFO - Setting logger badger.gui.default.components.bo_visualizer.ui_components to level DEBUG
+2025-10-21 14:25:51,448 - badger.log - INFO - Setting logger badger.gui.default.components.plot_event_handlers to level DEBUG
+2025-10-21 14:25:51,448 - badger.log - INFO - Setting logger badger.gui.default.components.bo_visualizer.plotting_area to level DEBUG
+2025-10-21 14:25:51,448 - badger.log - INFO - Setting logger badger.gui.default.components.bo_visualizer.bo_widget to level DEBUG
+2025-10-21 14:25:51,448 - badger.log - INFO - Setting logger badger.gui.default.components.pf_viewer.pf_widget to level DEBUG
+2025-10-21 14:25:51,448 - badger.log - INFO - Setting logger badger.gui.default.components.analysis_extensions to level DEBUG
+2025-10-21 14:25:51,448 - badger.log - INFO - Setting logger badger.logbook to level DEBUG
+2025-10-21 14:25:51,448 - badger.log - INFO - Setting logger badger.gui.default.components.routine_runner to level DEBUG
+2025-10-21 14:25:51,448 - badger.log - INFO - Setting logger badger.gui.default.components.run_monitor to level DEBUG
+2025-10-21 14:25:51,448 - badger.log - INFO - Setting logger badger.gui.acr.components.routine_page to level DEBUG
+2025-10-21 14:25:51,448 - badger.log - INFO - Setting logger badger.gui.acr.components.archive_search to level DEBUG
+2025-10-21 14:25:51,448 - badger.log - INFO - Setting logger badger.gui.acr.windows.settings_dialog to level DEBUG
+2025-10-21 14:25:51,448 - badger.log - INFO - Setting logger badger.gui.acr.pages.home_page to level DEBUG
+2025-10-21 14:25:51,448 - badger.log - INFO - Setting logger badger.gui.acr.windows.main_window to level DEBUG
+2025-10-21 14:25:51,448 - badger.gui.acr.windows.settings_dialog - INFO - Logger level changed to 10
+2025-10-21 14:25:51,448 - badger.log - INFO - Log level updated to DEBUG for all handlers
+2025-10-21 14:25:51,448 - badger.gui.acr.windows.settings_dialog - INFO - Logger level changed to DEBUG across all processes
+2025-10-21 14:25:52,771 - badger.gui.acr.windows.main_window - INFO - Main window close event triggered.

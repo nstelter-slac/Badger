@@ -1,5 +1,4 @@
 import logging
-import os
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +19,7 @@ from PyQt5.QtWidgets import (
 )
 from qdarkstyle import load_stylesheet, DarkPalette, LightPalette
 from badger.settings import init_settings
-from badger.log import set_log_level
+from badger.log import set_log_level, get_logging_manager
 
 
 class BadgerSettingsDialog(QDialog):
@@ -98,23 +97,28 @@ class BadgerSettingsDialog(QDialog):
         grid.addWidget(archive_root, 4, 0)
         grid.addWidget(archive_root_path, 4, 1)
 
+        # Log Path Root
+        self.logpath_root = logpath_root = QLabel("Logpath Root")
+        self.logpath_root_path = logpath_root_path = QLineEdit(
+            self.config_singleton.read_value("BADGER_LOGFILE_PATH")
+        )
+        grid.addWidget(logpath_root, 5, 0)
+        grid.addWidget(logpath_root_path, 5, 1)
+
         # log level setting
         self.logging_level = logging_level = QLabel("Logging level")
         self.logging_level_setting = logging_level_setting = QComboBox()
-        self.logging_level_setting.addItems([
-            "CRITICAL",
-            "ERROR",
-            "WARNING",
-            "INFO",
-            "DEBUG",
-            "NOTSET"
-        ])
+        self.logging_level_setting.addItems(
+            ["CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG", "NOTSET"]
+        )
 
         # set current value from config if it exists
         current_level = self.config_singleton.read_value("BADGER_LOGGING_LEVEL")
-        if current_level in [self.logging_level_setting.itemText(i) for i in range(self.logging_level_setting.count())]:
+        if current_level in [
+            self.logging_level_setting.itemText(i)
+            for i in range(self.logging_level_setting.count())
+        ]:
             self.logging_level_setting.setCurrentText(current_level)
-
 
         grid.addWidget(logging_level, 5, 0)
         grid.addWidget(logging_level_setting, 5, 1)
@@ -215,13 +219,17 @@ class BadgerSettingsDialog(QDialog):
         )
 
         level_str = self.logging_level_setting.currentText()
-        self.config_singleton.write_value(
-            "BADGER_LOGGING_LEVEL", level_str
-        )
+        self.config_singleton.write_value("BADGER_LOGGING_LEVEL", level_str)
         # update loggers with new value
-        level = getattr(logging, level_str, "DEBUG")
+        level = getattr(logging, level_str, logging.WARNING)
         set_log_level(level)
         logger.info(f"Logger level changed to {level}")
+
+        # IMPORTANT: Also update the centralized logging manager
+        logging_manager = get_logging_manager()
+        logging_manager.update_log_level(level)
+
+        logger.info(f"Logger level changed to {level_str} across all processes")
 
         # self.config_singleton.write_value(
         #     "AUTO_REFRESH", self.enable_auto_refresh.isChecked()

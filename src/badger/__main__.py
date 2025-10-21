@@ -4,8 +4,8 @@ import logging
 
 logger = logging.getLogger("badger")
 
-#from badger.log import config_log
-#config_log()
+# from badger.log import config_log
+# config_log()
 from badger.actions import show_info  # noqa: E402
 from badger.actions.doctor import self_check  # noqa: E402
 from badger.actions.routine import show_routine  # noqa: E402
@@ -17,10 +17,10 @@ from badger.actions.intf import show_intf  # noqa: E402
 from badger.actions.run import run_routine  # noqa: E402
 from badger.actions.config import config_settings  # noqa: E402
 from badger.settings import init_settings
-from badger.log import set_log_level, init_logger
+from badger.log import set_log_level, init_logger, get_logging_manager
+
 
 def main():
-
     # default to the settings currently set in the config-file
     config_singleton = init_settings()
     BADGER_LOGGING_LEVEL = config_singleton.read_value("BADGER_LOGGING_LEVEL")
@@ -152,18 +152,28 @@ def main():
 
     args = parser.parse_args()
 
-    #configure named logger
-    # (we don't use "basicConfig", since it configures root-logger which will give us logs from imported packages)
-    init_logger(logger, args.log_filepath, args.log.upper())
-    set_log_level(args.log)
+    # For CLI mode: use traditional logging
+    if not args.gui and not args.gui_acr:
+        init_logger(logger, args.log_filepath, args.log.upper())
+        set_log_level(args.log)
+    else:
+        # For GUI mode: start centralized logging
+        logging_manager = get_logging_manager()
+        logging_manager.start_listener(str(args.log_filepath), args.log.upper())
+        # Still configure the main process logger
+        init_logger(logger, args.log_filepath, args.log.upper())
 
     logger.info(f"From config: BADGER_LOGGING_LEVEL = {BADGER_LOGGING_LEVEL}")
     logger.info(f"From config: BADGER_LOGFILE_PATH = {BADGER_LOGFILE_PATH}")
     logger.info(f"args.log: {args.log}")
     logger.info(f"args.log_filepath: {args.log_filepath}")
 
-
     args.func(args)
+    # Cleanup
+    if args.gui or args.gui_acr:
+        logging_manager = get_logging_manager()
+        logging_manager.stop_listener()
+
 
 if __name__ == "__main__":
     main()
