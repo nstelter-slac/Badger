@@ -15,7 +15,7 @@ from badger.actions.uninstall import plugin_remove  # noqa: E402
 from badger.actions.intf import show_intf  # noqa: E402
 from badger.actions.config import config_settings  # noqa: E402
 from badger.log import get_logging_manager, configure_process_logging  # noqa: E402
-
+from badger.actions.run import run_routine  # noqa: E402
 
 def main():
     # Create the top-level parser
@@ -50,12 +50,6 @@ def main():
     )
     parser.set_defaults(func=show_info)
     subparsers = parser.add_subparsers(help="Badger commands help")
-
-    ###
-    # Parser for the 'config' command
-    parser_config = subparsers.add_parser("config", help="Badger configurations")
-    parser_config.add_argument("key", nargs="?", type=str, default=None)
-    parser_config.set_defaults(func=config_settings)
 
     # Parser for the 'doctor' command
     parser_doctor = subparsers.add_parser("doctor", help="Badger status self-check")
@@ -142,12 +136,14 @@ def main():
         help="verbose level of optimization progress",
     )
 
-    from badger.actions.run import run_routine  # noqa: E402
-
     parser_run.set_defaults(func=run_routine)
 
+    # Parser for the 'config' command
+    parser_config = subparsers.add_parser("config", help="Badger configurations")
+    parser_config.add_argument("key", nargs="?", type=str, default=None)
+    parser_config.set_defaults(func=config_settings)
+
     args = parser.parse_args()
-    args.func(args)
 
     # setup mutliprocess logging
     logging_manager = get_logging_manager()
@@ -166,6 +162,9 @@ def main():
     atexit.register(
         lambda: logging_manager.listener and logging_manager.listener.stop()
     )
+
+    
+    args.func(args)
 
 
 if __name__ == "__main__":
