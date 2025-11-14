@@ -1,3 +1,4 @@
+import os
 import logging
 from logging.handlers import QueueHandler, QueueListener
 from multiprocessing import Queue
@@ -52,6 +53,7 @@ class LoggingManager:
         file_handler.setFormatter(file_formatter)
         file_handler.setLevel(log_level)
         self.handlers.append(file_handler)
+
         # Terminal handler
         terminal_handler = logging.StreamHandler()
         console_formatter = logging.Formatter(
@@ -149,53 +151,84 @@ class LoggingManager:
         """Get the logging queue for use by subprocesses."""
         return self.log_queue
 
+    def create_log_dir(self, log_dir: str):
+        """
+        Create the logs directory if it doesn't exist.
 
-def configure_process_logging(
-    log_queue: Queue = None,
-    logger_name: str = "badger",
-    log_level=logging.DEBUG,
-    process_name: str = None,
-):
-    """
-    Configure logging in processes to send logs to the central queue.
+        args:
+            log_dir: directory to potentially create.
+        """
+        # If not set, empty, or invalid, use default (user config folder)
+        if log_dir is None or log_dir == "" or log_dir == "/logs":
+            log_dir = os.path.join(get_user_config_folder(), "logs")
 
-    args:
-        log_queue (Queue): Queue to send log records to
-        logger_name (str): Name of the logger (default: "badger")
-        log_level (int or str): Logging level to set
-        process_name (str): Custom process name to output in logs
-    """
-    if isinstance(log_level, str):
-        log_level = getattr(logging, log_level.upper(), logging.DEBUG)
+        # Expand user home directory if needed
+        log_dir = os.path.expanduser(log_dir)
 
-    # Set custom process name if provided
-    if process_name:
-        import multiprocessing as mp
+        # Make it absolute path if it's relative
+        if not os.path.isabs(log_dir):
+            log_dir = os.path.join(get_user_config_folder(), log_dir)
 
-        mp.current_process().name = process_name
+        # Create directory if it doesn't exist
+        try:
+            os.makedirs(log_dir, exist_ok=True)
+        except PermissionError:
+            # Fall back to user config folder if we can't create the directory
+            logger.warning(f"Cannot create log directory {log_dir}, using default")
+            log_dir = os.path.join(get_user_config_folder(), "logs")
+            os.makedirs(log_dir, exist_ok=True)
+        except FileExistsError:
+            # Something with this name exists but it's not a directory
+            logger.warning(f"{log_dir} exists but is not a directory, using default")
+            log_dir = os.path.join(get_user_config_folder(), "logs")
+            os.makedirs(log_dir, exist_ok=True)
 
-    # Get top level logger for this namespace
-    logger = logging.getLogger(logger_name)
-    # Clear any existing handlers
-    logger.handlers.clear()
 
-    logger.propagate = False
+    def configure_process_logging(
+        self,
+        logger_name: str = "badger",
+        log_level: str = "DEBUG",
+        process_name: str = None,
+    ):
+        """
+        Configure logging in processes to send logs to the central queue.
 
-    if log_queue is not None:
-        # Add queue handler so logs get sent to queue in main process
-        queue_handler = QueueHandler(log_queue)
-        logger.addHandler(queue_handler)
+        args:
+            logger_name (str): Name of the logger (default: "badger")
+            log_level (int or str): Logging level to set
+            process_name (str): Custom process name to output in logs
+        """
+        if isinstance(log_level, str):
+            log_level = getattr(logging, log_level.upper(), logging.DEBUG)
 
-    logger.setLevel(log_level)
+        # Set custom process name if provided
+        if process_name:
+            import multiprocessing as mp
 
-    # Also set level for all child loggers in the namespace
-    for name, logger_obj in logging.root.manager.loggerDict.items():
-        if isinstance(logger_obj, logging.Logger) and name.startswith(logger_name):
-            logger_obj.setLevel(log_level)
+            mp.current_process().name = process_name
 
-    logger.info(
-        f"process logger configured with level {logging.getLevelName(log_level)}"
-    )
+        # Get top level logger for this namespace
+        logger = logging.getLogger(logger_name)
+        # Clear any existing handlers
+        logger.handlers.clear()
+
+        logger.propagate = False
+
+        if self.log_queue is not None:
+            # Add queue handler so logs get sent to queue in main process
+            queue_handler = QueueHandler(self.log_queue)
+            logger.addHandler(queue_handler)
+
+        logger.setLevel(log_level)
+
+        # Also set level for all child loggers in the namespace
+        for name, logger_obj in logging.root.manager.loggerDict.items():
+            if isinstance(logger_obj, logging.Logger) and name.startswith(logger_name):
+                logger_obj.setLevel(log_level)
+
+        logger.info(
+            f"process logger configured with level {logging.getLevelName(log_level)}"
+        )
 
 
 # Calling `from badger.log import get_logging_manager, configure_subprocess_logger` will execute this line,
