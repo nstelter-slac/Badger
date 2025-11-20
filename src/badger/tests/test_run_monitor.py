@@ -185,6 +185,7 @@ class TestRunMonitor:
 
         # Test label setting
         plot_var_axis = monitor.plot_var.getAxis("bottom")
+        plot_var_axis.enableAutoSIPrefix(False)
         assert plot_var_axis.label.toPlainText().strip() == "iterations"
 
         plot_obj_axis = monitor.plot_obj.getAxis("bottom")
