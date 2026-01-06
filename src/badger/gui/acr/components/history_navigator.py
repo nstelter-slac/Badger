@@ -1,7 +1,15 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QTreeWidget, QTreeWidgetItem
+from PyQt5.QtWidgets import (
+    QWidget,
+    QVBoxLayout,
+    QTreeWidget,
+    QTreeWidgetItem,
+    QMenu,
+    QAction,
+    QApplication,
+)
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
-from badger.archive import get_base_run_filename
+from badger.archive import get_base_run_filename, get_runs
 from badger.utils import run_names_to_dict
 
 
@@ -22,6 +30,10 @@ class HistoryNavigator(QWidget):
         header.setFont(bold_font)
 
         self.tree_widget.setMinimumHeight(256)
+
+        self.tree_widget.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.tree_widget.customContextMenuRequested.connect(self.show_context_menu)
+
         layout.addWidget(self.tree_widget)
 
         self.runs = None  # all runs to be shown in the tree widget
@@ -30,6 +42,57 @@ class HistoryNavigator(QWidget):
                 background-color: #37414F;
             }
         """)
+
+    def show_context_menu(self, position):
+        item = self.tree_widget.itemAt(position)
+        if item is None:
+            return  # user didn't click any menu item
+        # user clicked on a directory item in tree
+        run_filename = item.text(0)
+        if not run_filename.endswith(
+            ".yaml"
+        ):  # only type of file we display in history!
+            return
+
+        menu = QMenu(self.tree_widget)
+
+        menu.setStyleSheet("""
+        QMenu {
+            border: 4px solid yellow;
+        }
+        """)
+
+        open_button = menu.addAction("Open")
+
+        # Have menu item which when hovered on displays submenu item with text of runfiles full path
+        runs = get_runs()
+        fullpath = self.find_run_by_name(runs, run_filename)
+        fullpath_item = QMenu("Full File Path", menu)
+        sub_fullpath_item = QAction(fullpath, fullpath_item)
+
+        def copy_fullpath_to_clipboard():
+            clip = QApplication.clipboard()
+            clip.setText(fullpath)
+
+        sub_fullpath_item.triggered.connect(copy_fullpath_to_clipboard)
+
+        fullpath_item.addAction(sub_fullpath_item)
+        menu.addMenu(fullpath_item)
+
+        selected_action = menu.exec_(self.tree_widget.viewport().mapToGlobal(position))
+
+        if selected_action == open_button:
+            print("Open clicked")
+
+    def find_run_by_name(self, runs, filename):
+        """
+        Search in run_list (full paths) for a file matching filename.
+        Returns the full path if found, else None.
+        """
+        for r in runs:
+            if r.endswith(filename):
+                return r
+        return None
 
     def _firstSelectableItem(self, parent=None):
         """
