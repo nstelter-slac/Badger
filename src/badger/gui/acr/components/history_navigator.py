@@ -1,3 +1,4 @@
+import os
 from PyQt5.QtWidgets import (
     QWidget,
     QVBoxLayout,
@@ -6,9 +7,10 @@ from PyQt5.QtWidgets import (
     QMenu,
     QAction,
     QApplication,
+    QToolTip,
 )
-from PyQt5.QtGui import QFont
-from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QFont, QDesktopServices, QCursor
+from PyQt5.QtCore import Qt, QUrl, QTimer
 from badger.archive import get_base_run_filename, get_runs
 from badger.utils import run_names_to_dict
 
@@ -44,45 +46,61 @@ class HistoryNavigator(QWidget):
         """)
 
     def show_context_menu(self, position):
-        item = self.tree_widget.itemAt(position)
-        if item is None:
-            return  # user didn't click any menu item
-        # user clicked on a directory item in tree
-        run_filename = item.text(0)
+        selected_item = self.tree_widget.itemAt(position)
+        if selected_item is None:
+            return  # user didn't click on any menu item
+        run_filename = selected_item.text(0)
         if not run_filename.endswith(
             ".yaml"
         ):  # only type of file we display in history!
-            return
+            return  # user clicked on a directory item in tree
 
         menu = QMenu(self.tree_widget)
-
+        # for visibility of gray context-menu on gray background
         menu.setStyleSheet("""
         QMenu {
             border: 4px solid yellow;
         }
         """)
 
-        open_button = menu.addAction("Open")
-
-        # Have menu item which when hovered on displays submenu item with text of runfiles full path
-        runs = get_runs()
-        fullpath = self.find_run_by_name(runs, run_filename)
-        fullpath_item = QMenu("Full File Path", menu)
-        sub_fullpath_item = QAction(fullpath, fullpath_item)
-
+        # funcs that execute the context-menu actions
         def copy_fullpath_to_clipboard():
             clip = QApplication.clipboard()
             clip.setText(fullpath)
+            # we need to delay the menu's closing for a bit after getting clicked, so tooltip has time to render
+            QTimer.singleShot(
+                50,  # ms
+                lambda: QToolTip.showText(
+                    QCursor.pos(),
+                    "Text Copied!",
+                    self.tree_widget,
+                ),
+            )
 
+        def open_file():
+            QDesktopServices.openUrl(QUrl.fromLocalFile(fullpath))
+
+        def open_file_location():
+            QDesktopServices.openUrl(QUrl.fromLocalFile(os.path.dirname(fullpath)))
+
+        # get full path to run file
+        runs = get_runs()
+        fullpath = self.find_run_by_name(runs, run_filename)
+
+        open_file_item = menu.addAction("Open File")
+        open_file_item.triggered.connect(open_file)
+
+        open_file_dir_item = menu.addAction("Open File Directory")
+        open_file_dir_item.triggered.connect(open_file_location)
+
+        # menu item which when hovered on displays submenu with file's full path
+        fullpath_item = QMenu("File Path", menu)
+        sub_fullpath_item = QAction(fullpath, fullpath_item)
         sub_fullpath_item.triggered.connect(copy_fullpath_to_clipboard)
-
         fullpath_item.addAction(sub_fullpath_item)
         menu.addMenu(fullpath_item)
 
-        selected_action = menu.exec_(self.tree_widget.viewport().mapToGlobal(position))
-
-        if selected_action == open_button:
-            print("Open clicked")
+        menu.popup(self.tree_widget.viewport().mapToGlobal(position))
 
     def find_run_by_name(self, runs, filename):
         """

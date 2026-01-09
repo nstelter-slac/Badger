@@ -30,8 +30,8 @@ from badger.gui.default.components.data_table import (
     reset_table,
     update_table,
 )
-from badger.gui.acr.components.history_navigator import HistoryNavigator
-from badger.gui.acr.components.template_navigator import TemplateNavigator
+from badger.gui.acr.components.navigators import HistoryNavigator
+from badger.gui.acr.components.navigators import TemplateNavigator
 from badger.gui.acr.components.routine_page import BadgerRoutinePage
 from badger.gui.default.components.run_monitor import BadgerOptMonitor
 from badger.gui.acr.components.status_bar import BadgerStatusBar

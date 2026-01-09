@@ -17,7 +17,7 @@ from badger.archive import (
     get_runs,
     load_run,
 )
-from badger.gui.acr.components.history_navigator import HistoryNavigator
+from badger.gui.acr.components.navigators import HistoryNavigator
 from badger.settings import init_settings
 from badger.errors import BadgerRoutineError
 from badger.routine import Routine
