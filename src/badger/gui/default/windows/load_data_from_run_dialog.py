@@ -108,7 +108,9 @@ class BadgerLoadDataFromRunDialog(QDialog):
         self.history_browser.setFixedWidth(360)
         runs = get_runs()
         self.history_browser.updateItems(runs)
-        self.history_browser.tree_widget.itemSelectionChanged.connect(self.preview_run)
+        self.history_browser.history_tree_widget.itemSelectionChanged.connect(
+            self.preview_run
+        )
         hbox_content.addWidget(self.history_browser)
 
         # Data preview
