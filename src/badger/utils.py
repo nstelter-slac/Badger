@@ -186,6 +186,8 @@ def create_archive_run_filename(routine, format: str = "lcls-fname") -> str:
 
 
 def get_header(routine):
+    if routine is None:
+        return
     try:
         obj_names = routine.vocs.objective_names
     except Exception:

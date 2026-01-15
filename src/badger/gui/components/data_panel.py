@@ -167,7 +167,7 @@ class BadgerDataPanel(QWidget):
         """
         vocs = self.env_vocs
 
-        if not vocs.variable_names or not vocs.objective_names:
+        if vocs and (not vocs.variable_names or not vocs.objective_names):
             dialog = QMessageBox(
                 text=str("Select Environment + VOCS before adding data!"),
                 parent=self,

@@ -462,6 +462,8 @@ class BadgerHomePage(QWidget):
                 raises an error.
         """
         logger.info("Preparing new run.")
+        if self.routine_editor.env_box.cb.currentIndex() == -1:
+            return
         try:
             routine = self.routine_editor._compose_routine()
         except Exception as e:
@@ -541,11 +543,12 @@ class BadgerHomePage(QWidget):
             self.data_panel.reset_data_table()
             self.prepare_run()
 
-        self.run_monitor.start(
-            use_termination_condition=use_termination_condition,
-            run_data_flag=run_data_flag,
-            init_points_flag=init_points_flag,
-        )
+        if self.run_monitor.routine is not None:
+            self.run_monitor.start(
+                use_termination_condition=use_termination_condition,
+                run_data_flag=run_data_flag,
+                init_points_flag=init_points_flag,
+            )
 
     def start_run_until(self):
         logger.info("Starting run until condition met.")
@@ -570,6 +573,8 @@ class BadgerHomePage(QWidget):
         # self.cb_history.setCurrentIndex(0)
 
         header = get_header(self.current_routine)
+        if header is None:
+            return
         reset_table(self.run_table, header)
 
     def run_name(self, name):

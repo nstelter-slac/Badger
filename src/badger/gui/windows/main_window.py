@@ -105,7 +105,7 @@ class BadgerMainWindow(QMainWindow):
     def closeEvent(self, event) -> None:
         logger.info("Main window close event triggered.")
         if (
-            hasattr(self.home_page.routine_editor, "archive_search")
+            self.home_page.routine_editor.archive_search
             and self.home_page.routine_editor.archive_search.isVisible()
         ):
             self.home_page.routine_editor.archive_search.close()

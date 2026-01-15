@@ -31,7 +31,7 @@ class AnalysisWidget(QDialog):
     ):
         super().__init__(parent=parent)
         self.routine = routine
-        self.generator = routine.generator
+        self.generator = routine.generator if routine.generator is not None else None
 
     @abstractmethod
     def initialize_widget(self) -> None:

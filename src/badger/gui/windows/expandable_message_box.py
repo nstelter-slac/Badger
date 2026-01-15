@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import (
     QTextEdit,
 )
 from PyQt5.QtGui import QTextOption, QFont, QFontDatabase
+from PyQt5.QtCore import Qt
 
 
 class ExpandableMessageBox(QDialog):
@@ -15,6 +16,7 @@ class ExpandableMessageBox(QDialog):
         self, icon=None, title="Message", text="", detailedText="", parent=None
     ):
         super().__init__(parent)
+        self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
 
         # Main layout
         mainLayout = QVBoxLayout(self)

@@ -102,6 +102,8 @@ class BadgerRoutinePage(QWidget):
         logger.info("Initializing BadgerRoutinePage.")
         super().__init__()
 
+        self.configs = None
+        self.archive_search = None
         self.generators = list_generators()
         self.envs = list_env()
         self.env = None
@@ -1071,7 +1073,7 @@ class BadgerRoutinePage(QWidget):
         self.ratio_var_ranges = {}
         self.var_hard_limit = {}
 
-        if hasattr(self, "archive_search"):
+        if self.archive_search:
             self.archive_search.close()
 
         if i == -1:
@@ -1350,7 +1352,10 @@ class BadgerRoutinePage(QWidget):
         self.window_env_docs.show()
 
     def open_archive_search(self):
-        if not hasattr(self, "archive_search") or not self.archive_search.isVisible():
+        if not self.configs:
+            return
+
+        if not self.archive_search or not self.archive_search.isVisible():
             try:
                 env = self.create_env()
             except AttributeError:

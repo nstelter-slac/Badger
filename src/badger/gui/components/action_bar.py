@@ -18,6 +18,14 @@ QPushButton
 {
     background-color: #A9444E;
 }
+QPushButton:enabled {
+    border: 2px solid #C7737B;
+    font-weight: bold;
+}
+QPushButton:disabled {
+    background-color: #B0B0B0;
+    color: #666666;
+}
 """
 
 stylesheet_log = """
@@ -33,6 +41,14 @@ QPushButton
 {
     background-color: #5C8899;
     color: #000000;
+}
+QPushButton:enabled {
+    border: 2px solid #88C0D0;
+    font-weight: bold;
+}
+QPushButton:disabled {
+    background-color: #B0B0B0;
+    color: #666666;
 }
 """
 
@@ -65,6 +81,14 @@ QToolButton
     background-color: #4AB640;
     color: #000000;
 }
+QToolButton:enabled {
+    border: 2px solid #6EC566;
+    font-weight: bold;
+}
+QToolButton:disabled {
+    background-color: #B0B0B0;
+    color: #666666;
+}
 """
 
 stylesheet_stop = """
@@ -79,6 +103,42 @@ QToolButton:hover
 QToolButton
 {
     background-color: #A9444E;
+}
+QToolButton:enabled {
+    border: 2px solid #BF616A;
+    font-weight: bold;
+}
+QToolButton:disabled {
+    background-color: #B0B0B0;
+    color: #666666;
+}
+"""
+
+stylesheet_reset = """
+QPushButton:disabled {
+    background-color: #B0B0B0;
+    color: #666666;
+}
+"""
+
+stylesheet_control = """
+QPushButton:disabled {
+    background-color: #B0B0B0;
+    color: #666666;
+}
+"""
+
+stylesheet_opt = """
+QPushButton:disabled {
+    background-color: #B0B0B0;
+    color: #666666;
+}
+"""
+
+stylesheet_set = """
+QPushButton:disabled {
+    background-color: #B0B0B0;
+    color: #666666;
 }
 """
 
@@ -128,10 +188,12 @@ class BadgerActionBar(QWidget):
 
         self.btn_del = create_button("trash.png", "Delete run", stylesheet_del)
         self.btn_log = create_button("book.png", "Logbook", stylesheet_log)
-        self.btn_reset = create_button("undo.png", "Reset environment")
-        self.btn_opt = create_button("star.png", "Jump to optimum")
-        self.btn_set = create_button("set.png", "Dial in solution")
-        self.btn_ctrl = create_button("pause.png", "Pause")
+        self.btn_reset = create_button(
+            "undo.png", "Reset environment", stylesheet_reset
+        )
+        self.btn_opt = create_button("star.png", "Jump to optimum", stylesheet_opt)
+        self.btn_set = create_button("set.png", "Dial in solution", stylesheet_set)
+        self.btn_ctrl = create_button("pause.png", "Pause", stylesheet_control)
         self.btn_ctrl._status = "pause"
 
         self.btn_del.setDisabled(True)
@@ -166,8 +228,8 @@ class BadgerActionBar(QWidget):
         self.btn_stop.setMenu(menu)
         self.btn_stop.setDefaultAction(run_action)
         self.btn_stop.setPopupMode(QToolButton.MenuButtonPopup)
-        self.btn_stop.setDisabled(False)
         # btn_stop.setToolTip('')
+        self.btn_stop.setDisabled(True)
 
         # Config button
         self.btn_config = btn_config = create_button("tools.png", "Configure run")
@@ -217,11 +279,13 @@ class BadgerActionBar(QWidget):
         self.btn_log.setDisabled(False)
         self.btn_reset.setDisabled(False)
         self.btn_ctrl.setDisabled(False)
+        print("AAA")
         self.btn_stop.setDisabled(False)
         self.btn_opt.setDisabled(False)
         self.btn_set.setDisabled(False)
 
     def routine_invalid(self):
+        print("BBB")
         self.btn_stop.setDisabled(False)
 
     def routine_finished(self):
@@ -238,6 +302,7 @@ class BadgerActionBar(QWidget):
         self.run_until_action.setText("Run until")
         self.run_until_action.setIcon(self.icon_play)
         # self.btn_stop.setToolTip('')
+        print("CCC")
         self.btn_stop.setDisabled(False)
 
         self.btn_reset.setDisabled(False)
@@ -259,6 +324,7 @@ class BadgerActionBar(QWidget):
     def run_start(self):
         self.btn_stop.setStyleSheet(stylesheet_stop)
         self.btn_stop.setPopupMode(QToolButton.DelayedPopup)
+        print("DDD")
         self.btn_stop.setDisabled(False)
         self.run_action.setText("Stop")
         self.run_action.setIcon(self.icon_stop)
@@ -292,6 +358,7 @@ class BadgerActionBar(QWidget):
         self.sig_delete_run.emit()
 
     def logbook(self):
+        print("Hello!!")
         self.sig_logbook.emit()
 
     def reset_env(self):
