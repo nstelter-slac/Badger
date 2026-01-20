@@ -31,6 +31,8 @@ from badger.environment import Environment, instantiate_env
 from badger.errors import BadgerInterfaceChannelError
 from badger.gui.windows.expandable_message_box import ExpandableMessageBox
 
+from gest_api.vocs import ContinuousVariable
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -364,12 +366,23 @@ class VariableTable(QTableWidget):
             self.setItem(i, 1, item)
 
             _bounds = self.bounds[name]
+            # Could be either list[2] or ContinuousVariable obj
+            default_val = (
+                _bounds.domain[0]
+                if isinstance(_bounds, ContinuousVariable)
+                else _bounds[0]
+            )
             sb_lower = RobustSpinBox(
-                default_value=_bounds[0], lower_bound=vrange[0], upper_bound=vrange[1]
+                default_value=default_val, lower_bound=vrange[0], upper_bound=vrange[1]
             )
             sb_lower.valueChanged.connect(self.update_bounds)
+            default_val = (
+                _bounds.domain[1]
+                if isinstance(_bounds, ContinuousVariable)
+                else _bounds[0]
+            )
             sb_upper = RobustSpinBox(
-                default_value=_bounds[1], lower_bound=vrange[0], upper_bound=vrange[1]
+                default_value=default_val, lower_bound=vrange[0], upper_bound=vrange[1]
             )
             sb_upper.valueChanged.connect(self.update_bounds)
             self.setCellWidget(i, 2, sb_lower)
