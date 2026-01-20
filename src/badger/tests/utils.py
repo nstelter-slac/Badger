@@ -3,6 +3,7 @@ import pandas as pd
 from xopt import VOCS
 from xopt.generators.bayesian import UpperConfidenceBoundGenerator
 from xopt.generators import RandomGenerator
+from gest_api.vocs import ContinuousVariable
 
 
 def create_routine():
@@ -15,7 +16,12 @@ def create_routine():
         "generator_params": {},
         "env_params": {},
         "vocs": {
-            "variables": {"x0": [-1, 1], "x1": [-1, 1], "x2": [-1, 1], "x3": [-1, 1]},
+            "variables": {
+                "x0": ContinuousVariable(domain=[-1, 1]),
+                "x1": ContinuousVariable(domain=[-1, 1]),
+                "x2": ContinuousVariable(domain=[-1, 1]),
+                "x3": ContinuousVariable(domain=[-1, 1]),
+            },
             "objectives": {"f": "MAXIMIZE"},
             "constraints": {"c": ["GREATER_THAN", 0]},
         },
@@ -44,7 +50,12 @@ def create_multiobjective_routine():
         "generator_params": {},
         "env_params": {},
         "vocs": {
-            "variables": {"x0": [-1, 1], "x1": [-1, 1], "x2": [-1, 1], "x3": [-1, 1]},
+            "variables": {
+                "x0": ContinuousVariable(domain=[-1, 1]),
+                "x1": ContinuousVariable(domain=[-1, 1]),
+                "x2": ContinuousVariable(domain=[-1, 1]),
+                "x3": ContinuousVariable(domain=[-1, 1]),
+            },
             "objectives": {"f1": "MAXIMIZE", "f2": "MINIMIZE"},
             "constraints": {},
         },
@@ -81,7 +92,12 @@ def create_routine_turbo():
         },
         "env_params": {},
         "config": {
-            "variables": {"x0": [-1, 1], "x1": [-1, 1], "x2": [-1, 1], "x3": [-1, 1]},
+            "variables": {
+                "x0": ContinuousVariable(domain=[-1, 1]),
+                "x1": ContinuousVariable(domain=[-1, 1]),
+                "x2": ContinuousVariable(domain=[-1, 1]),
+                "x3": ContinuousVariable(domain=[-1, 1]),
+            },
             "objectives": {"f": "MAXIMIZE"},
             "init_points": {"x0": [0.5], "x1": [0.5], "x2": [0.5], "x3": [0.5]},
         },
@@ -115,7 +131,12 @@ def create_routine_critical():
         "generator_params": {},
         "env_params": {},
         "vocs": {
-            "variables": {"x0": [-1, 1], "x1": [-1, 1], "x2": [-1, 1], "x3": [-1, 1]},
+            "variables": {
+                "x0": ContinuousVariable(domain=[-1, 1]),
+                "x1": ContinuousVariable(domain=[-1, 1]),
+                "x2": ContinuousVariable(domain=[-1, 1]),
+                "x3": ContinuousVariable(domain=[-1, 1]),
+            },
             "objectives": {"f": "MAXIMIZE"},
             "constraints": {"c": ["LESS_THAN", 0]},
         },
@@ -153,7 +174,12 @@ def create_routine_constrained_ucb():
         },
         "env_params": {},
         "vocs": {
-            "variables": {"x0": [-1, 1], "x1": [-1, 1], "x2": [-1, 1], "x3": [-1, 1]},
+            "variables": {
+                "x0": ContinuousVariable(domain=[-1, 1]),
+                "x1": ContinuousVariable(domain=[-1, 1]),
+                "x2": ContinuousVariable(domain=[-1, 1]),
+                "x3": ContinuousVariable(domain=[-1, 1]),
+            },
             "objectives": {"f": "MAXIMIZE"},
             "constraints": {"c": ["GREATER_THAN", 0]},
         },

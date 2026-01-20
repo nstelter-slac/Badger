@@ -2,11 +2,12 @@ import torch
 from badger import environment
 from badger.errors import BadgerNoInterfaceError
 import time
+from gest_api.vocs import ContinuousVariable
 
 
 class Environment(environment.Environment):
     name = "test"
-    variables = {f"x{i}": [-1, 1] for i in range(20)}
+    variables = {f"x{i}": ContinuousVariable(domain=[-1, 1]) for i in range(20)}
     observables = ["f", "c"]
 
     flag: int = 0
@@ -29,4 +30,4 @@ class Environment(environment.Environment):
         """
         Returns the bounds of new variables (not already included in env).
         """
-        return {name: [-1, 1] for name in variable_names}
+        return {name: ContinuousVariable(domain=[-1, 1]) for name in variable_names}

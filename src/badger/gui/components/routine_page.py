@@ -15,12 +15,14 @@ from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QScrollArea
 from PyQt5.QtWidgets import QTableWidgetItem, QPlainTextEdit
 from coolname import generate_slug
 from xopt import VOCS
+from xopt.vocs import random_inputs
 from xopt.generators import (
     get_generator_defaults,
     all_generator_names,
     get_generator_dynamic,
 )
 from xopt.utils import get_local_region
+from gest_api.vocs import GreaterThanConstraint, LessThanConstraint
 from pydantic import ValidationError
 
 from badger.gui.components.generator_cbox import BadgerAlgoBox
@@ -66,21 +68,13 @@ from badger.utils import (
     ts_float_to_str,
 )
 
+
 import logging
 
 logger = logging.getLogger(__name__)
 
-LABEL_WIDTH = 96
-CONS_RELATION_DICT = {
-    ">": "GREATER_THAN",
-    "<": "LESS_THAN",
-}
-CONS_RELATION_DICT_INV = {
-    "GREATER_THAN": ">",
-    "LESS_THAN": "<",
-}
 
-logger = logging.getLogger(__name__)
+LABEL_WIDTH = 96
 
 
 def format_validation_error(e: ValidationError) -> str:
@@ -91,6 +85,15 @@ def format_validation_error(e: ValidationError) -> str:
         msg = f"{loc}: {err['msg']}\n"
         messages.append(msg)
     return "\n".join(messages)
+
+
+def extract_constraint_symbol_and_value(constraint):
+    if isinstance(constraint, GreaterThanConstraint):
+        return ">", constraint.value
+    if isinstance(constraint, LessThanConstraint):
+        return "<", constraint.value
+    else:  # Expand for other constraints if needed
+        return "", 0
 
 
 class BadgerRoutinePage(QWidget):
@@ -451,6 +454,7 @@ class BadgerRoutinePage(QWidget):
         all_variables = dict(sorted(all_variables.items()))
         all_variables = [{key: value} for key, value in all_variables.items()]
 
+        print("!!A2")
         self.env_box.var_table.update_variables(all_variables)
         self.env_box.var_table.set_selected(vocs.variables)
         self.env_box.var_table.addtl_vars = additional_variables
@@ -523,9 +527,8 @@ class BadgerRoutinePage(QWidget):
             status[name] = False  # selected
             constraints.append(cons)
         for name, val in vocs.constraints.items():
-            relation, thres = val
+            relation, thres = extract_constraint_symbol_and_value(val)
             critical = name in critical_constraint_names
-            relation = CONS_RELATION_DICT_INV[relation]
 
             idx = constraints_names_full.index(name)
             if idx == -1:
@@ -800,6 +803,7 @@ class BadgerRoutinePage(QWidget):
         all_variables = [{key: value} for key, value in all_variables.items()]
 
         with BlockSignalsContext(self.env_box.var_table):
+            print("!!A3")
             self.env_box.var_table.update_variables(variables=all_variables, filtered=2)
         self.env_box.var_table.set_selected(variables)
         self.env_box.var_table.addtl_vars = routine.additional_variables
@@ -876,9 +880,8 @@ class BadgerRoutinePage(QWidget):
             status[name] = False  # selected
             constraints.append(cons)
         for name, val in routine.vocs.constraints.items():
-            relation, thres = val
+            relation, thres = extract_constraint_symbol_and_value(val)
             critical = name in routine.critical_constraint_names
-            relation = CONS_RELATION_DICT_INV[relation]
 
             idx = constraints_names_full.index(name)
             if idx == -1:
@@ -1077,6 +1080,7 @@ class BadgerRoutinePage(QWidget):
         if i == -1:
             self.env_box.edit.clear()
             self.env_box.edit_var.clear()
+            print("!!A4")
             self.env_box.var_table.update_variables(None)
             self.configs = None
             self.env = None
@@ -1113,6 +1117,7 @@ class BadgerRoutinePage(QWidget):
         self.env_box.edit.set_params_from_dict(configs["params"])
 
         # Get and save vars to combine with additional vars added on the fly
+        print(" !! configs: ", configs)
         vars_env = self.vars_env = configs["variables"]
         vars_combine = [*vars_env]
 
@@ -1121,6 +1126,7 @@ class BadgerRoutinePage(QWidget):
         self.env_box.var_table.checked_only = False  # reset the checked only flag
         self.env_box.check_only_var.blockSignals(False)
         with BlockSignalsContext(self.env_box.var_table):
+            print("!!A5, ", vars_combine)
             self.env_box.var_table.update_variables(vars_combine)
         # Auto apply the limited variable ranges if the option is set
         if self.env_box.relative_to_curr.isChecked():
@@ -1250,7 +1256,8 @@ class BadgerRoutinePage(QWidget):
         # get small region around current point to sample
         try:
             vocs, _ = self.env_box.compose_vocs()
-        except Exception:
+        except Exception as e:
+            print(str(e))
             # Switch to manual mode to allow the user fixing the vocs issue
             QMessageBox.warning(
                 self,
@@ -1264,8 +1271,8 @@ class BadgerRoutinePage(QWidget):
         random_sample_region = get_local_region(var_curr, vocs, fraction=fraction)
         with warnings.catch_warnings(record=True) as caught_warnings:
             try:
-                random_points = vocs.random_inputs(
-                    n_point, custom_bounds=random_sample_region
+                random_points = random_inputs(
+                    vocs, n_point, custom_bounds=random_sample_region
                 )
             except ValueError:
                 raise VariableRangeError(
@@ -1446,7 +1453,9 @@ class BadgerRoutinePage(QWidget):
                     var_curr[name] * (1 - 0.5 * sign * ratio),
                     var_curr[name] * (1 + 0.5 * sign * ratio),
                 ]
-                bounds = np.clip(bounds, hard_bounds[0], hard_bounds[1]).tolist()
+                bounds = np.clip(
+                    bounds, hard_bounds.domain[0], hard_bounds.domain[1]
+                ).tolist()
                 vrange[name] = bounds
 
         with BlockSignalsContext(self.env_box.var_table):

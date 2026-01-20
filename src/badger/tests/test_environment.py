@@ -7,10 +7,11 @@ from unittest.mock import Mock
 from badger.environment import BaseEnvironment, Environment
 from badger.errors import BadgerEnvVarError, BadgerNoInterfaceError
 from badger.interface import Interface
+from gest_api.vocs import ContinuousVariable
 
 # TEST_VOCS_BASE replacement for testing
 TEST_VOCS_BASE = {
-    "variables": {f"x{i}": [-1, 1] for i in range(4)},
+    "variables": {f"x{i}": ContinuousVariable(domain=[-1, 1]) for i in range(4)},
     "objectives": {"f": "MINIMIZE"},
 }
 
@@ -28,7 +29,7 @@ class TestEnvironment:
 
         class TestEnv(BaseEnvironment):
             name = "test"
-            variables = {f"x{i}": [-1, 1] for i in range(20)}
+            variables = {f"x{i}": ContinuousVariable(domain=[-1, 1]) for i in range(20)}
             observables = ["f"]
 
             my_flag: int = 0
@@ -90,7 +91,7 @@ class TestEnvironment:
 
         class TestEnv(Environment):
             name = "test"
-            variables = {"x1": [-1, 1]}
+            variables = {"x1": ContinuousVariable(domain=[-1, 1])}
             observables = ["f"]
 
         env = TestEnv()
@@ -109,7 +110,10 @@ class TestEnvironment:
 
         class TestEnv(BaseEnvironment):
             name = "test"
-            variables = {"x1": [-1, 1], "x2": [0, 10]}
+            variables = {
+                "x1": ContinuousVariable(domain=[-1, 1]),
+                "x2": ContinuousVariable(domain=[0, 10]),
+            }
             observables = ["f"]
 
             def get_variables(self, variable_names: List[str]) -> Dict[str, float]:
@@ -123,7 +127,7 @@ class TestEnvironment:
 
             def get_bounds(self, variable_names: List[str]) -> dict[str, float]:
                 # Test invalid bounds - should be caught by decorator
-                return {"x1": [1, -1]}  # upper < lower
+                return {"x1": ContinuousVariable(domain=[1, -1])}  # upper < lower
 
         env = TestEnv()
 
@@ -137,7 +141,10 @@ class TestEnvironment:
 
         class TestEnv(BaseEnvironment):
             name = "test"
-            variables = {"x1": [-1, 1], "x2": [0, 10]}
+            variables = {
+                "x1": ContinuousVariable(domain=[-1, 1]),
+                "x2": ContinuousVariable(domain=[0, 10]),
+            }
             observables = ["f"]
 
             def get_variables(self, variable_names: List[str]) -> Dict[str, float]:
@@ -170,7 +177,10 @@ class TestEnvironment:
 
         class TestEnv(BaseEnvironment):
             name = "test"
-            variables = {"x1": [-1, 1], "x2": [-1, 1]}
+            variables = {
+                "x1": ContinuousVariable(domain=[-1, 1]),
+                "x2": ContinuousVariable(domain=[-1, 1]),
+            }
             observables = ["f", "g", "h"]
 
             def get_variables(self, variable_names: List[str]) -> Dict[str, float]:
@@ -204,7 +214,7 @@ class TestEnvironment:
 
         class TestEnv(BaseEnvironment):
             name = "test"
-            variables = {"x1": [-1, 1]}
+            variables = {"x1": ContinuousVariable(domain=[-1, 1])}
             observables = ["f"]
 
             def get_variables(self, variable_names: List[str]) -> Dict[str, float]:
@@ -234,7 +244,11 @@ class TestEnvironment:
 
         class TestEnv(Environment):
             name = "test"
-            variables = {"x1": [-1, 1], "x2": [0, 10], "x3": [-5, 5]}
+            variables = {
+                "x1": ContinuousVariable(domain=[-1, 1]),
+                "x2": ContinuousVariable(domain=[0, 10]),
+                "x3": ContinuousVariable(domain=[-5, 5]),
+            }
             observables = ["f"]
 
         env = TestEnv(interface=mock_interface)
@@ -265,7 +279,7 @@ class TestEnvironment:
 
         class TestEnv(BaseEnvironment):
             name = "test"
-            variables = {"x1": [-1, 1]}
+            variables = {"x1": ContinuousVariable(domain=[-1, 1])}
             observables = ["f"]
 
             def get_variables(self, variable_names: List[str]) -> Dict[str, float]:
@@ -290,7 +304,7 @@ class TestEnvironment:
 
         class TestEnv(BaseEnvironment):
             name = "test"
-            variables = {f"x{i}": [-1, 1] for i in range(20)}
+            variables = {f"x{i}": ContinuousVariable(domain=[-1, 1]) for i in range(20)}
             observables = ["f"]
 
             my_flag: int = 0
@@ -344,7 +358,10 @@ class TestEnvironment:
 
         class TestEnv(BaseEnvironment):
             name = "test"
-            variables = {"x1": [-1, 1], "x2": [-1, 1]}
+            variables = {
+                "x1": ContinuousVariable(domain=[-1, 1]),
+                "x2": ContinuousVariable(domain=[-1, 1]),
+            }
             observables = ["data", "noise", "signal"]
 
             def get_variables(self, variable_names: List[str]) -> Dict[str, float]:

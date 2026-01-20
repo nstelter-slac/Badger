@@ -31,6 +31,8 @@ from badger.environment import Environment, instantiate_env
 from badger.errors import BadgerInterfaceChannelError
 from badger.gui.windows.expandable_message_box import ExpandableMessageBox
 
+from gest_api.vocs import ContinuousVariable
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -87,13 +89,13 @@ class VariableTable(QTableWidget):
         self.setHorizontalHeaderLabels(["", "Name", "Min", "Max", ""])
 
         self.all_variables: list[
-            dict[str, tuple[float, float]]
+            dict[str, ContinuousVariable]
         ] = []  # store all variables
         self.variables: list[
-            dict[str, tuple[float, float]]
+            dict[str, ContinuousVariable]
         ] = []  # store variables to be displayed
         self.selected: dict[str, bool] = {}  # track var selected status
-        self.bounds: dict[str, tuple[float, float]] = {}  # track var bounds
+        self.bounds: dict[str, ContinuousVariable] = {}  # track var bounds
         self.checked_only = False
         self.bounds_locked = False
         self.addtl_vars = []  # track variables added on the fly
@@ -175,7 +177,10 @@ class VariableTable(QTableWidget):
             sb_lower = cast(RobustSpinBox, sb_lower)
             sb_upper = cast(RobustSpinBox, sb_upper)
 
-            self.bounds[name] = (sb_lower.value(), sb_upper.value())
+            print("!!!! hello !!!")
+            self.bounds[name] = ContinuousVariable(
+                domain=[sb_lower.value(), sb_upper.value()]
+            )
             self.validate_row(i)  # Validate the row after updating bounds
         self.data_changed.emit()
 
@@ -206,19 +211,19 @@ class VariableTable(QTableWidget):
                 if widget:
                     widget.setStyleSheet("")
 
-    def set_bounds(
-        self, variables: dict[str, tuple[float, float]], signal: bool = True
-    ):
+    def set_bounds(self, variables: dict[str, ContinuousVariable], signal: bool = True):
         for name in variables:
             self.bounds[name] = variables[name]
 
         if signal:
+            print("!!H!!")
             self.update_variables(self.variables, 2)
         else:
+            print("!!I!!")
             self.update_variables(self.variables, 3)
 
     def refresh_variable(
-        self, name: str, bounds: tuple[float, float], hard_bounds: tuple[float, float]
+        self, name: str, bounds: ContinuousVariable, hard_bounds: ContinuousVariable
     ):
         self.bounds[name] = bounds
 
@@ -234,6 +239,7 @@ class VariableTable(QTableWidget):
                 var[name] = hard_bounds
                 break
 
+        print("!!J!!")
         self.update_variables(self.variables, 2)
 
     def update_selected(self):
@@ -261,6 +267,7 @@ class VariableTable(QTableWidget):
         for vname in variable_names:
             self.selected[vname] = True
 
+        print("!!A!!")
         self.update_variables(self.variables, 3)
 
     def toggle_show_mode(self, checked_only: bool):
@@ -276,9 +283,11 @@ class VariableTable(QTableWidget):
             name = next(iter(var))
             if self.is_checked(name):
                 checked_variables.append(var)
+        print("!!B!!")
         self.update_variables(checked_variables, 3)
 
     def show_all(self):
+        print("!!C!!")
         self.update_variables(self.variables, 3)
 
     def is_checked(self, name: str) -> bool:
@@ -290,10 +299,10 @@ class VariableTable(QTableWidget):
         return _checked
 
     def get_visible_variables(
-        self, variables: list[dict[str, tuple[float, float]]]
-    ) -> list[dict[str, tuple[float, float]]]:
+        self, variables: list[dict[str, ContinuousVariable]]
+    ) -> list[dict[str, ContinuousVariable]]:
         _variables: list[
-            dict[str, tuple[float, float]]
+            dict[str, ContinuousVariable]
         ] = []  # store variables to be displayed
         if self.checked_only:
             for var in variables:
@@ -303,22 +312,19 @@ class VariableTable(QTableWidget):
         else:
             _variables = variables
 
+        print("!!! _variables ", _variables)
         return _variables
 
-    def _convert_bounds_to_tuple(self, bounds: Any) -> dict[str, tuple[float, float]]:
-        return {k: (v[0], v[1]) for k, v in bounds.items()}
-
     def update_variables(
-        self, variables: list[dict[str, tuple[float, float]]], filtered: int = 0
+        self, variables: list[dict[str, ContinuousVariable]], filtered: int = 0
     ):
         # filtered = 0: completely refresh
         # filtered = 1: filtered by keyword
         # filtered = 2: just rerender based on check status
         # filtered = 3: same as 2 but do not emit the signal
+        print(" !!! vars: ", variables)
 
         self.setRowCount(0)
-
-        variables = [self._convert_bounds_to_tuple(var) for var in variables]
 
         if not filtered:
             self.all_variables = variables or []
@@ -364,12 +370,32 @@ class VariableTable(QTableWidget):
             self.setItem(i, 1, item)
 
             _bounds = self.bounds[name]
+            # Could be either list[2] or ContinuousVariable obj
+            """
+            default_val = (
+                _bounds.domain[0]
+                if isinstance(_bounds, ContinuousVariable)
+                else _bounds[0]
+            )
+            """
+            print("!!!! vrange: ", vrange)
             sb_lower = RobustSpinBox(
-                default_value=_bounds[0], lower_bound=vrange[0], upper_bound=vrange[1]
+                default_value=_bounds.domain[0],
+                lower_bound=vrange.domain[0],
+                upper_bound=vrange.domain[1],
             )
             sb_lower.valueChanged.connect(self.update_bounds)
+            """
+            default_val = (
+                _bounds.domain[1]
+                if isinstance(_bounds, ContinuousVariable)
+                else _bounds[0]
+            )
+            """
             sb_upper = RobustSpinBox(
-                default_value=_bounds[1], lower_bound=vrange[0], upper_bound=vrange[1]
+                default_value=_bounds.domain[1],
+                lower_bound=vrange.domain[0],
+                upper_bound=vrange.domain[1],
             )
             sb_upper.valueChanged.connect(self.update_bounds)
             self.setCellWidget(i, 2, sb_lower)
@@ -434,6 +460,7 @@ class VariableTable(QTableWidget):
                 ]
                 del self.bounds[prev_name]
                 del self.selected[prev_name]
+                print("!!D!!")
 
                 self.update_variables(self.variables, 2)
             return
@@ -446,6 +473,7 @@ class VariableTable(QTableWidget):
 
         # Check that variables doesn't already exist in table
         if name in [next(iter(d)) for d in self.variables]:
+            print("!!E!!")
             self.update_variables(self.variables, 2)
             QMessageBox.warning(
                 self, "Variable already exists!", f"Variable {name} already exists!"
@@ -460,6 +488,7 @@ class VariableTable(QTableWidget):
             except BadgerInterfaceChannelError:
                 # Raised when PV does not exist after attempting to call value
                 # Revert table to previous state
+                print("!!F!!")
                 self.update_variables(self.variables, 2)
                 QMessageBox.critical(
                     self,
@@ -501,18 +530,24 @@ class VariableTable(QTableWidget):
         _cb.stateChanged.connect(self.update_selected)
 
         sb_lower = RobustSpinBox(
-            default_value=_bounds[0], lower_bound=_bounds[0], upper_bound=_bounds[1]
+            default_value=_bounds.domain[0],
+            lower_bound=_bounds.domain[0],
+            upper_bound=_bounds.domain[1],
         )
         sb_lower.valueChanged.connect(self.update_bounds)
         sb_upper = RobustSpinBox(
-            default_value=_bounds[1], lower_bound=_bounds[0], upper_bound=_bounds[1]
+            default_value=_bounds.domain[1],
+            lower_bound=_bounds.domain[0],
+            upper_bound=_bounds.domain[1],
         )
         sb_upper.valueChanged.connect(self.update_bounds)
         self.setCellWidget(idx, 2, sb_lower)
         self.setCellWidget(idx, 3, sb_upper)
 
-        self.add_variable(name, _bounds[0], _bounds[1])
+        self.add_variable(name, _bounds.domain[0], _bounds.domain[1])
         self.addtl_vars.append(name)
+
+        print("!!G!!")
 
         self.update_variables(self.variables, 2)
 
@@ -527,19 +562,21 @@ class VariableTable(QTableWidget):
         return value, bound
 
     def add_variable(self, name: str, lb: float, ub: float):
-        var = {name: (lb, ub)}
+        var = {name: ContinuousVariable(domain=[lb, ub])}
 
+        print("!! adding var: ", lb, ub)
         self.all_variables.append(var)
         self.variables.append(var)
-        self.bounds[name] = (lb, ub)
+        self.bounds[name] = ContinuousVariable(domain=[lb, ub])
 
-    def export_variables(self) -> dict[str, tuple[float, float]]:
-        variables_exported: dict[str, tuple[float, float]] = {}
+    def export_variables(self) -> dict[str, ContinuousVariable]:
+        variables_exported: dict[str, ContinuousVariable] = {}
         for var in self.all_variables:
             name = next(iter(var))
             if self.is_checked(name):
                 variables_exported[name] = self.bounds[name]
 
+        print("!! variables exported: ", variables_exported)
         return variables_exported
 
     def lock_bounds(self):

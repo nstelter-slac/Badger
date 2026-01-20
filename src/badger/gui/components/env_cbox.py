@@ -32,7 +32,8 @@ from badger.gui.utils import (
     NoHoverFocusComboBox,
 )
 from badger.utils import strtobool
-from xopt.vocs import VOCS, ConstraintEnum
+from xopt.vocs import VOCS
+
 import logging
 
 LABEL_WIDTH = 96
@@ -555,6 +556,7 @@ class BadgerEnvBox(QWidget):
             if rx.indexIn(vname, 0) != -1:
                 _variables.append(var)
 
+        print("!!A1")
         self.var_table.update_variables(_variables, 1)
 
     def toggle_obj_show_mode(self, _):
@@ -617,7 +619,7 @@ class BadgerEnvBox(QWidget):
             (rule,) = objective[obj_name]
             objectives[obj_name] = rule
 
-        constraints: dict[str, list[float | ConstraintEnum]] = {}
+        constraints: dict[str, list[float]] = {}
         critical_constraints: list[str] = []
         for constraint in self.con_table.export_data():
             con_name = next(iter(constraint))
@@ -632,6 +634,7 @@ class BadgerEnvBox(QWidget):
             observables.append(obs_name)
 
         try:
+            variables = {k: v for k, v in variables.items()}
             vocs = VOCS(
                 variables=variables,
                 objectives=objectives,

@@ -1,8 +1,15 @@
+import json
 import pandas as pd
 import pytest
 from pytestqt.qtbot import QtBot
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtWidgets import QApplication
+from gest_api.vocs import (
+    LessThanConstraint,
+    ContinuousVariable,
+    MinimizeObjective,
+    Observable,
+)
 
 
 def test_routine_page_init(qtbot: QtBot):
@@ -50,7 +57,9 @@ def test_routine_generation(qtbot: QtBot):
 
     # click checkbox to select vars/objectives
     window.env_box.var_table.cellWidget(0, 0).setChecked(True)
-    assert window.env_box.var_table.export_variables() == {"x0": (-1, 1)}
+    assert window.env_box.var_table.export_variables() == {
+        "x0": ContinuousVariable(domain=[-1, 1])
+    }
 
     window.env_box.obj_table.cellWidget(0, 0).setChecked(True)
     # Remember to post-process the exported data to match the expected format
@@ -60,8 +69,10 @@ def test_routine_generation(qtbot: QtBot):
     qtbot.mouseClick(window.env_box.btn_add_curr, Qt.LeftButton)
 
     routine = window._compose_routine()
-    assert routine.vocs.variables == {"x0": (-1, 1)}
-    assert routine.vocs.objectives == {"f": "MINIMIZE"}
+    assert routine.vocs.variables == {
+        "x0": ContinuousVariable(dtype=None, default_value=None, domain=[-1.0, 1.0])
+    }
+    assert routine.vocs.objectives == {"f": MinimizeObjective(dtype=None)}
     # assert routine.initial_points.empty
 
     # Test if badger and xopt version match with the current version
@@ -86,7 +97,9 @@ def test_add_additional_vars(qtbot: QtBot):
 
     # click checkbox to select vars/objectives
     window.env_box.var_table.cellWidget(0, 0).setChecked(True)
-    assert window.env_box.var_table.export_variables() == {"x0": (-1, 1)}
+    assert window.env_box.var_table.export_variables() == {
+        "x0": ContinuousVariable(domain=[-1, 1])
+    }
 
     # Check that there is an extra row: X0 to X19, and one to enter a new PV
     n_rows = window.env_box.var_table.rowCount()
@@ -95,13 +108,17 @@ def test_add_additional_vars(qtbot: QtBot):
     # Enter text in first cell of last row
     item = window.env_box.var_table.item(20, 1)
     item.setText("x20")
+
     assert window.env_box.var_table.item(20, 1).text() == "x20"
 
     # Send signal of table item changing
     window.env_box.var_table.cellChanged.emit(20, 1)
 
     # Why isn't this updating the table after changing the value?
-    variables = {"x0": (-1, 1), "x20": (-1, 1)}
+    variables = {
+        "x0": ContinuousVariable(domain=[-1, 1]),
+        "x20": ContinuousVariable(domain=[-1, 1]),
+    }
 
     # Check that new variable was added
     # Its checkbox checked by default when added
@@ -156,10 +173,21 @@ def test_ui_update(qtbot: QtBot):
     idx = window.generators.index(routine.generator.name)
     window.select_generator(idx)
 
-    assert (
-        window.generator_box.edit.get_parameters()
-        == '{"vocs":{"variables":{"x0":"(-1.0, 1.0)","x1":"(-1.0, 1.0)","x2":"(-1.0, 1.0)","x3":"(-1.0, 1.0)"},"constraints":{"c":"(\'GREATER_THAN\', 0.0)"},"objectives":{"f":"MAXIMIZE"},"constants":{},"observables":[]}}'
-    )
+    expected_params = {
+        "returns_id": False,
+        "vocs": {
+            "variables": "{'x0': {'dtype': None, 'default_value': None, 'domain': [-1.0, 1.0], 'type': 'ContinuousVariable'}, "
+            "'x1': {'dtype': None, 'default_value': None, 'domain': [-1.0, 1.0], 'type': 'ContinuousVariable'}, "
+            "'x2': {'dtype': None, 'default_value': None, 'domain': [-1.0, 1.0], 'type': 'ContinuousVariable'}, "
+            "'x3': {'dtype': None, 'default_value': None, 'domain': [-1.0, 1.0], 'type': 'ContinuousVariable'}}",
+            "constraints": "{'c': {'dtype': None, 'value': 0.0, 'type': 'GreaterThanConstraint'}}",
+            "objectives": "{'f': {'dtype': None, 'type': 'MaximizeObjective'}}",
+            "constants": "{}",
+            "observables": "{}",
+        },
+    }
+    actual_params = json.loads(window.generator_box.edit.get_parameters())
+    assert actual_params == expected_params
 
 
 def test_constraints(qtbot: QtBot):
@@ -181,7 +209,7 @@ def test_constraints(qtbot: QtBot):
     con_widget_critical.setChecked(True)
 
     routine = window._compose_routine()
-    assert routine.vocs.constraints == {"c": ("LESS_THAN", 0.0)}
+    assert routine.vocs.constraints == {"c": LessThanConstraint(dtype=None, value=0.0)}
     assert routine.critical_constraint_names == ["c"]
 
 
@@ -195,8 +223,10 @@ def test_observables(qtbot: QtBot):
     qtbot.keyClicks(window.generator_box.cb, "expected_improvement")
     qtbot.keyClicks(window.env_box.cb, "test")
 
+    window.show()
     # click checkbox to select vars/objectives
     window.env_box.var_table.cellWidget(0, 0).setChecked(True)
+    print("!!!!! window.env_box.obj_table: ", window.env_box.obj_table.cellWidget(0, 0))
     window.env_box.obj_table.cellWidget(0, 0).setChecked(True)
     # Select observable (first 20 vars, then f, then c)
     # TODO: add vars back once the routine issue is resolved
@@ -204,7 +234,7 @@ def test_observables(qtbot: QtBot):
     window.env_box.sta_table.cellWidget(1, 0).setChecked(True)
 
     routine = window._compose_routine()
-    assert routine.vocs.observables == ["c"]
+    assert routine.vocs.observables == {"c": Observable(dtype=None)}
 
 
 def test_add_random_points(qtbot: QtBot):

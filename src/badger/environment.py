@@ -13,14 +13,15 @@ if TYPE_CHECKING:
     from badger.factory import BadgerPluginConfig
 from badger.formula import extract_variable_keys, interpret_expression
 from badger.interface import Interface
+from gest_api.vocs import ContinuousVariable
 
 
 def validate_setpoints(func):
     def validate(cls, variable_inputs: Dict[str, float]):
         _bounds = cls.get_bounds(list(variable_inputs.keys()))
         for name, value in variable_inputs.items():
-            lower = _bounds[name][0]
-            upper = _bounds[name][1]
+            lower = _bounds[name].domain[0]
+            upper = _bounds[name].domain[1]
 
             if value > upper or value < lower:
                 raise BadgerEnvVarError(
@@ -84,11 +85,11 @@ def validate_bounds(func):
         bounds = func(cls, variable_names)
 
         for name, bound in bounds.items():
-            if not isinstance(bound, (list, tuple)) or len(bound) != 2:
+            if not isinstance(bound, ContinuousVariable) or len(bound.domain) != 2:
                 raise BadgerEnvVarError(
-                    f"Bounds for {name} must be a list or tuple of length 2."
+                    f"Bounds for {name} must be a ContinuousVariable with length 2 array domain."
                 )
-            lower, upper = bound
+            lower, upper = bound.domain
             if not (
                 isinstance(lower, (int, float)) and isinstance(upper, (int, float))
             ):

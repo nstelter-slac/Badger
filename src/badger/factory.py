@@ -105,6 +105,7 @@ def load_plugin(
 
     proot = os.path.join(root, f"{ptype}s")
 
+    print("!!!!!: proot, pname, ", proot, pname)
     # Load the params in the configs
     configs: BadgerPluginConfig | None = None
     with open(os.path.join(proot, pname, "configs.yaml"), "r") as f:
@@ -121,6 +122,7 @@ def load_plugin(
 
     # Load module
     try:
+        print("!! module: ", f"{ptype}s.{pname}")
         module = importlib.import_module(f"{ptype}s.{pname}")
     except ImportError as e:
         _e = BadgerInvalidPluginError(
