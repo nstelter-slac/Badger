@@ -16,6 +16,7 @@ from PyQt5.QtWidgets import (
     QDialogButtonBox,
     QApplication,
 )
+from PyQt5.QtCore import Qt
 from qdarkstyle import load_stylesheet, DarkPalette, LightPalette
 from badger.settings import init_settings
 from badger.log import get_logging_manager
@@ -35,6 +36,7 @@ class BadgerSettingsDialog(QDialog):
     def __init__(self, parent):
         logger.info("Initializing BadgerSettingsDialog.")
         super().__init__(parent)
+        self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
 
         self.config_singleton = init_settings()
 
