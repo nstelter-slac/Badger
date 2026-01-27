@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from types import NoneType
 from typing import (
+    Annotated,
     Callable,
     Optional,
     Any,
@@ -139,6 +140,9 @@ class BadgerResolvedType:
 
         if len(args) == 0:
             return BadgerResolvedType(main=annotation)
+
+        if origin == Annotated:
+            return BadgerResolvedType.resolve(args[0])
 
         if origin == Union:
             if NoneType in args:
