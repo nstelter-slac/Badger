@@ -96,21 +96,27 @@ class BadgerActionBar(QWidget):
     sig_ctrl = pyqtSignal(bool)
     sig_open_extensions_palette = pyqtSignal()
 
+    sig_save_checkpoint = pyqtSignal()
+    sig_edit_checkpoint = pyqtSignal()
+    sig_load_checkpoint = pyqtSignal()
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.init_ui()
         self.config_logic()
 
     def init_ui(self):
-        icon_ref = resources.files(__package__) / "../images/play.png"
-        with resources.as_file(icon_ref) as icon_path:
-            self.icon_play = QIcon(str(icon_path))
-        icon_ref = resources.files(__package__) / "../images/pause.png"
-        with resources.as_file(icon_ref) as icon_path:
-            self.icon_pause = QIcon(str(icon_path))
-        icon_ref = resources.files(__package__) / "../images/stop.png"
-        with resources.as_file(icon_ref) as icon_path:
-            self.icon_stop = QIcon(str(icon_path))
+        def load_internal_icon(name: str) -> QIcon:
+            icon_ref = resources.files(__package__) / f"../images/{name}"
+            with resources.as_file(icon_ref) as icon_path:
+                return QIcon(str(icon_path))
+
+        self.icon_play = load_internal_icon("play.png")
+        self.icon_pause = load_internal_icon("pause.png")
+        self.icon_stop = load_internal_icon("stop.png")
+        self.icon_flag = load_internal_icon("flag.png")
+        self.icon_flag_up = load_internal_icon("flag_up.png")
+        self.icon_flag_down = load_internal_icon("flag_down.png")
 
         hbox_action = QHBoxLayout(self)
         hbox_action.setContentsMargins(0, 0, 0, 0)
@@ -129,6 +135,9 @@ class BadgerActionBar(QWidget):
         self.btn_del = create_button("trash.png", "Delete run", stylesheet_del)
         self.btn_log = create_button("book.png", "Logbook", stylesheet_log)
         self.btn_reset = create_button("undo.png", "Reset environment")
+        self.btn_checkpoint = create_button(
+            "flag.png", "Checkpoint", size=(48, 32), tool_button=True
+        )
         self.btn_opt = create_button("star.png", "Jump to optimum")
         self.btn_set = create_button("set.png", "Dial in solution")
         self.btn_ctrl = create_button("pause.png", "Pause")
@@ -137,6 +146,7 @@ class BadgerActionBar(QWidget):
         self.btn_del.setDisabled(True)
         self.btn_log.setDisabled(True)
         self.btn_reset.setDisabled(True)
+        self.btn_checkpoint.setDisabled(True)
         self.btn_opt.setDisabled(True)
         self.btn_set.setDisabled(True)
         self.btn_ctrl.setDisabled(True)
@@ -151,6 +161,27 @@ class BadgerActionBar(QWidget):
         self.btn_open_extensions_palette = btn_extensions = create_button(
             "extension.png", "Open extensions", stylesheet_ext
         )
+
+        # Create a menu and add options
+        self.checkpoint_menu = checkpoint_menu = QMenu(self)
+        checkpoint_menu.setFixedWidth(128)
+        self.save_checkpoint_action = save_checkpoint_action = QAction(
+            self.icon_flag_down, "Save Checkpoint", self
+        )
+        self.edit_checkpoint_action = edit_checkpoint_action = QAction(
+            self.icon_flag, "Edit Checkpoint", self
+        )
+        self.load_checkpoint_action = load_checkpoint_action = QAction(
+            self.icon_flag_up, "Load Checkpoint", self
+        )
+        checkpoint_menu.addAction(save_checkpoint_action)
+        checkpoint_menu.addAction(edit_checkpoint_action)
+        checkpoint_menu.addAction(load_checkpoint_action)
+
+        # Set the menu as the checkpoint button's dropdown menu
+        self.btn_checkpoint.setMenu(checkpoint_menu)
+        self.btn_checkpoint.setDefaultAction(save_checkpoint_action)
+        self.btn_checkpoint.setPopupMode(QToolButton.MenuButtonPopup)
 
         # Create a menu and add options
         self.run_menu = menu = QMenu(self)
@@ -180,6 +211,7 @@ class BadgerActionBar(QWidget):
         hbox_bg.addWidget(self.btn_reset)
         hbox_bg.addWidget(self.btn_ctrl)
         hbox_bg.addWidget(self.btn_stop)
+        hbox_bg.addWidget(self.btn_checkpoint)
         hbox_bg.addWidget(self.btn_opt)
         hbox_bg.addWidget(self.btn_set)
         hbox_bg.addStretch(1)
@@ -201,12 +233,22 @@ class BadgerActionBar(QWidget):
         self.btn_ctrl.clicked.connect(self.ctrl_routine)
         self.run_action.triggered.connect(self.set_run_action)
         self.run_until_action.triggered.connect(self.set_run_until_action)
+        self.save_checkpoint_action.triggered.connect(
+            lambda: self.sig_save_checkpoint.emit()
+        )
+        self.edit_checkpoint_action.triggered.connect(
+            lambda: self.sig_edit_checkpoint.emit()
+        )
+        self.load_checkpoint_action.triggered.connect(
+            lambda: self.sig_load_checkpoint.emit()
+        )
         self.btn_open_extensions_palette.clicked.connect(self.open_extensions_palette)
 
     def lock(self):
         self.btn_del.setDisabled(True)
         self.btn_log.setDisabled(True)
         self.btn_reset.setDisabled(True)
+        self.btn_checkpoint.setDisabled(True)
         self.btn_ctrl.setDisabled(True)
         self.btn_stop.setDisabled(True)
         self.btn_opt.setDisabled(True)
@@ -216,6 +258,7 @@ class BadgerActionBar(QWidget):
         self.btn_del.setDisabled(False)
         self.btn_log.setDisabled(False)
         self.btn_reset.setDisabled(False)
+        self.btn_checkpoint.setDisabled(False)
         self.btn_ctrl.setDisabled(False)
         self.btn_stop.setDisabled(False)
         self.btn_opt.setDisabled(False)
@@ -264,6 +307,7 @@ class BadgerActionBar(QWidget):
         self.run_action.setIcon(self.icon_stop)
         self.run_until_action.setText("Stop")
         self.run_until_action.setIcon(self.icon_stop)
+        self.btn_checkpoint.setDisabled(False)
         self.btn_ctrl.setDisabled(False)
         self.btn_set.setDisabled(True)
 

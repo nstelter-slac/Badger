@@ -254,6 +254,15 @@ class BadgerHomePage(QWidget):
         self.run_action_bar.sig_delete_run.connect(self.run_monitor.delete_run)
         self.run_action_bar.sig_logbook.connect(self.run_monitor.logbook)
         self.run_action_bar.sig_reset_env.connect(self.run_monitor.reset_env)
+        self.run_action_bar.sig_save_checkpoint.connect(
+            self.run_monitor.save_checkpoint
+        )
+        self.run_action_bar.sig_edit_checkpoint.connect(
+            self.run_monitor.edit_checkpoint
+        )
+        self.run_action_bar.sig_load_checkpoint.connect(
+            self.run_monitor.load_checkpoint
+        )
         self.run_action_bar.sig_jump_to_optimal.connect(
             self.run_monitor.jump_to_optimal
         )
