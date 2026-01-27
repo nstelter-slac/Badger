@@ -1,6 +1,6 @@
 from importlib import resources
 from typing import Any
-from PyQt5.QtWidgets import QAbstractSpinBox, QPushButton, QComboBox
+from PyQt5.QtWidgets import QAbstractSpinBox, QPushButton, QComboBox, QToolButton
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel
 from PyQt5.QtCore import Qt, QObject, QEvent, QSize
 from PyQt5.QtGui import QIcon
@@ -24,12 +24,24 @@ class MouseWheelWidgetAdjustmentGuard(QObject):
         return super().eventFilter(o, e)
 
 
-def create_button(icon_file, tooltip, stylesheet=None, size=(32, 32), icon_size=None):
+def create_button(
+    icon_file,
+    tooltip,
+    stylesheet=None,
+    size=(32, 32),
+    icon_size=None,
+    tool_button=False,
+):
     icon_ref = resources.files(__package__) / f"./images/{icon_file}"
     with resources.as_file(icon_ref) as icon_path:
         icon = QIcon(str(icon_path))
 
-    btn = QPushButton()
+    if tool_button:
+        btn = QToolButton()
+        btn.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
+    else:
+        btn = QPushButton()
+
     if size:
         btn.setFixedSize(*size)
     btn.setIcon(icon)
