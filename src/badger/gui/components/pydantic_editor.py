@@ -317,7 +317,7 @@ def _qt_widget_to_yaml_value(widget: Any) -> str | None:
     if isinstance(widget, QTreeWidget):
         return None
     elif isinstance(widget, BadgerListEditor):
-        return widget.get_parameters()
+        return widget.get_parameters_yaml()
     elif isinstance(widget, QSpinBox) or isinstance(widget, QDoubleSpinBox):
         return str(widget.value())
     elif isinstance(widget, QCheckBox):
@@ -367,6 +367,45 @@ def _qt_widgets_to_yaml_recurse(
                 out += ","
 
     out += "}"
+    return out
+
+
+def _qt_widget_to_value(widget: Any) -> Any:
+    if isinstance(widget, QTreeWidget):
+        return None
+    elif isinstance(widget, BadgerListEditor):
+        return widget.get_parameters_dict()
+    elif isinstance(widget, QSpinBox) or isinstance(widget, QDoubleSpinBox):
+        return widget.value()
+    elif isinstance(widget, QCheckBox):
+        return widget.isChecked()
+    elif isinstance(widget, QComboBox):
+        return widget.currentText()
+    elif isinstance(widget, (QLabel, QLineEdit)):
+        return widget.text()
+    return None
+
+
+def _qt_widgets_to_values_recurse(
+    table: QTreeWidget, item: QTreeWidgetItem | None
+) -> dict[str, Any]:
+    out: dict[str, Any] = {}
+    if item is not None:
+        for i in range(item.childCount()):
+            child_item = item.child(i)
+            if child_item is None:
+                continue
+
+            key = child_item.text(0)
+            widget = table.itemWidget(child_item, 1)
+
+            if child_item.childCount() > 0:
+                out[key] = _qt_widgets_to_values_recurse(table, child_item)
+            elif widget is None:
+                out[key] = None
+            else:
+                out[key] = _qt_widget_to_value(widget)
+
     return out
 
 
@@ -470,7 +509,7 @@ class BadgerListEditor(QWidget):
         self.listChanged.emit()
         return widget
 
-    def get_parameters(self):
+    def get_parameters_yaml(self):
         child_values: list[str | None] = [
             _qt_widget_to_yaml_value(child.parameter_value)
             for child in self.list_container.children()
@@ -495,6 +534,25 @@ class BadgerListEditor(QWidget):
                 )
                 + "}"
             )
+
+    def get_parameters_dict(self):
+        child_values: list[str | None] = [
+            _qt_widget_to_value(child.parameter_value)
+            for child in self.list_container.children()
+            if isinstance(child, BadgerListItem)
+        ]
+        if len(child_values) == 0 and self.property("badger_nullable"):
+            return None
+
+        if self.widget_type2 is None:
+            return [value for value in child_values if value is not None]
+        else:
+            child_values2 = [
+                _qt_widget_to_value(child.parameter_value2)
+                for child in self.list_container.children()
+                if isinstance(child, BadgerListItem)
+            ]
+            return {k: v for k, v in zip(child_values, child_values2)}
 
 
 class BadgerPydanticEditor(QTreeWidget):
@@ -765,7 +823,7 @@ class BadgerPydanticEditor(QTreeWidget):
             return
 
         # get values from current parameters
-        parameters = self.get_parameters()
+        parameters = self.get_parameters_yaml()
         defaults = yaml.load(parameters, Loader=CustomSafeLoader)
         self.update_params_from_generator_class(
             tree_widget_item,
@@ -856,8 +914,11 @@ class BadgerPydanticEditor(QTreeWidget):
                 defaults[field_name] = field_info.default_factory()  # type: ignore
         return defaults
 
-    def get_parameters(self) -> str:
+    def get_parameters_yaml(self) -> str:
         return _qt_widgets_to_yaml_recurse(self, self.invisibleRootItem())
+
+    def get_parameters_dict(self) -> dict[str, Any]:
+        return _qt_widgets_to_values_recurse(self, self.invisibleRootItem())
 
     def find_widget_at_path(
         self, path: tuple[int | str, ...]
@@ -906,7 +967,7 @@ class BadgerPydanticEditor(QTreeWidget):
         logger.debug(f"Updating VOCS in BadgerPydanticEditor: {vocs}")
         self.vocs = vocs
 
-        parameters = self.get_parameters()
+        parameters = self.get_parameters_yaml()
         logger.debug(f"Extracted parameters from tree: {parameters}")
 
         defaults = yaml.load(parameters, Loader=CustomSafeLoader)
@@ -953,7 +1014,7 @@ class BadgerPydanticEditor(QTreeWidget):
             self.remove_style(self.topLevelItem(i))
 
         try:
-            parameters = self.get_parameters()
+            parameters = self.get_parameters_yaml()
 
             parameters_dict = yaml.load(parameters, Loader=CustomSafeLoader)
 

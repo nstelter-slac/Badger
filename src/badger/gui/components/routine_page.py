@@ -594,7 +594,7 @@ class BadgerRoutinePage(QWidget):
 
         generator_config = self._filter_generator_params(
             generator_name=generator_name,
-            generator_config=load_config(self.generator_box.edit.get_parameters()),
+            generator_config=load_config(self.generator_box.edit.get_parameters_yaml()),
         )
 
         template_dict = {
@@ -607,7 +607,7 @@ class BadgerRoutinePage(QWidget):
             | generator_config,
             "environment": {
                 "name": self.env_box.cb.currentText(),
-                "params": load_config(self.env_box.edit.get_parameters()),
+                "params": load_config(self.env_box.edit.get_parameters_yaml()),
             },
             "vrange_limit_options": self.ratio_var_ranges,
             "vrange_hard_limit": self.var_hard_limit,
@@ -1022,7 +1022,7 @@ class BadgerRoutinePage(QWidget):
 
     def create_env(self):
         logger.info("Creating environment instance.")
-        env_params = load_config(self.env_box.edit.get_parameters())
+        env_params = load_config(self.env_box.edit.get_parameters_yaml())
         try:
             intf_name = self.configs["interface"][0]
         except KeyError:
@@ -1364,7 +1364,7 @@ class BadgerRoutinePage(QWidget):
 
     def add_var(self):
         # TODO: Use a cached env
-        env_params = load_config(self.env_box.edit.get_parameters())
+        env_params = load_config(self.env_box.edit.get_parameters_yaml())
         try:
             intf_name = self.configs["interface"][0]
         except KeyError:
@@ -1725,7 +1725,7 @@ class BadgerRoutinePage(QWidget):
         # Generator
         generator_name = self.generators[self.generator_box.cb.currentIndex()]
         env_name = self.envs[self.env_box.cb.currentIndex()]
-        generator_params = load_config(self.generator_box.edit.get_parameters())
+        generator_params = load_config(self.generator_box.edit.get_parameters_yaml())
         logger.debug(
             f"Generator selected: {generator_name}, params: {generator_params}"
         )
@@ -1754,7 +1754,7 @@ class BadgerRoutinePage(QWidget):
                         turbo_config["center_x"] = None
 
         # Environment
-        env_params = load_config(self.env_box.edit.get_parameters())
+        env_params = load_config(self.env_box.edit.get_parameters_yaml())
         logger.debug(f"Environment selected: {env_name}, params: {env_params}")
 
         # VOCS

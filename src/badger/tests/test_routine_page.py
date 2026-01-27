@@ -157,7 +157,7 @@ def test_ui_update(qtbot: QtBot):
     window.select_generator(idx)
 
     assert (
-        window.generator_box.edit.get_parameters()
+        window.generator_box.edit.get_parameters_yaml()
         == '{"vocs":{"variables":{"x0":"(-1.0, 1.0)","x1":"(-1.0, 1.0)","x2":"(-1.0, 1.0)","x3":"(-1.0, 1.0)"},"constraints":{"c":"(\'GREATER_THAN\', 0.0)"},"objectives":{"f":"MAXIMIZE"},"constants":{},"observables":[]}}'
     )
 
