@@ -232,18 +232,26 @@ def test_add_random_points(qtbot: QtBot):
     from badger.gui.components.routine_page import BadgerRoutinePage
 
     window = BadgerRoutinePage()
+    print("!!!!@@!! window 1 : ", window.env_box.var_table.export_variables())
     qtbot.addWidget(window)
+
+    print("!!!!@@!! window 22 : ", window.env_box.var_table.export_variables())
 
     # Turn off relative to current
     window.env_box.relative_to_curr.setChecked(False)
 
+    print("!!!!@@!! window 33 : ", window.env_box.var_table.export_variables())
+
     qtbot.keyClicks(window.generator_box.cb, "random")
     qtbot.keyClicks(window.env_box.cb, "test")
+
+    print("!!!!@@!! window 44 : ", window.env_box.var_table.export_variables())
 
     window.env_box.var_table.cellWidget(0, 0).setChecked(True)
     window.env_box.var_table.cellWidget(1, 0).setChecked(True)
     window.env_box.var_table.cellWidget(2, 0).setChecked(True)
     window.env_box.obj_table.cellWidget(0, 0).setChecked(True)
+    print("!!!!@@!! window 55 : ", window.env_box.var_table.export_variables())
 
     def handle_dialog():
         while window.rc_dialog is None:
@@ -254,9 +262,14 @@ def test_add_random_points(qtbot: QtBot):
         window.rc_dialog.sb_frac.setValue(0.05)
         qtbot.mouseClick(window.rc_dialog.btn_add, Qt.MouseButton.LeftButton)
 
+    print("!!!!@@!! window 66 : ", window.env_box.var_table.export_variables())
+
     QTimer.singleShot(0, handle_dialog)
 
     qtbot.mouseClick(window.env_box.btn_add_rand, Qt.LeftButton)
+    print("!!!!@@!! window 2.2 : ", window.env_box.var_table.export_variables())
+    # assert 0 == 1
+
     routine = window._compose_routine()
 
     assert routine.initial_points.shape[0] == 5

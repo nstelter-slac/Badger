@@ -208,9 +208,7 @@ class VariableTable(QTableWidget):
                 if widget:
                     widget.setStyleSheet("")
 
-    def set_bounds(
-        self, variables: dict[str, tuple[float, float]], signal: bool = True
-    ):
+    def set_bounds(self, variables: dict[str, list[float]], signal: bool = True):
         for name in variables:
             self.bounds[name] = variables[name]
 
@@ -540,18 +538,20 @@ class VariableTable(QTableWidget):
         return value, bound
 
     def add_variable(self, name: str, lb: float, ub: float):
-        var = {name: (lb, ub)}
+        var = {name: [lb, ub]}
 
         self.all_variables.append(var)
         self.variables.append(var)
-        self.bounds[name] = (lb, ub)
+        self.bounds[name] = [lb, ub]
 
-    def export_variables(self) -> dict[str, tuple[float, float]]:
-        variables_exported: dict[str, tuple[float, float]] = {}
+    def export_variables(self) -> dict[str, ContinuousVariable]:
+        variables_exported: dict[str, ContinuousVariable] = {}
         for var in self.all_variables:
             name = next(iter(var))
             if self.is_checked(name):
-                variables_exported[name] = self.bounds[name]
+                variables_exported[name] = ContinuousVariable(
+                    domain=[self.bounds[name][0], self.bounds[name][1]]
+                )
 
         return variables_exported
 

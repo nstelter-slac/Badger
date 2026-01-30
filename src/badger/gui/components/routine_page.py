@@ -538,8 +538,6 @@ class BadgerRoutinePage(QWidget):
                 constraints[idx] = {name: [relation, thres, critical]}
             status[name] = True
 
-        print("!!!! constraints[idx]: ", constraints[idx])
-
         # Show selected constraints only
         self.env_box.check_only_con.blockSignals(True)
         self.env_box.check_only_con.setChecked(True)
@@ -892,7 +890,6 @@ class BadgerRoutinePage(QWidget):
                 constraints[idx] = {name: [relation, thres, critical]}
             status[name] = True
 
-        print("!!!! constraints[idx]: ", constraints[idx])
         # Show selected constraints only
         self.env_box.check_only_con.blockSignals(True)
         self.env_box.check_only_con.setChecked(True)
@@ -1254,8 +1251,7 @@ class BadgerRoutinePage(QWidget):
         # get small region around current point to sample
         try:
             vocs, _ = self.env_box.compose_vocs()
-        except Exception as e:
-            print(str(e))
+        except Exception:
             # Switch to manual mode to allow the user fixing the vocs issue
             QMessageBox.warning(
                 self,
@@ -1610,6 +1606,7 @@ class BadgerRoutinePage(QWidget):
                 vrange[name] = bounds
                 logger.info(f"Auto bounds for {name} (current ratio): {bounds}")
 
+        print("!!! vrange: ", vrange)
         return vrange
 
     def toggle_relative_to_curr(self, checked, refresh=True):

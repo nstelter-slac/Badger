@@ -33,7 +33,6 @@ from badger.gui.utils import (
 )
 from badger.utils import strtobool
 from xopt.vocs import VOCS
-from gest_api.vocs import ContinuousVariable
 
 import logging
 
@@ -634,12 +633,13 @@ class BadgerEnvBox(QWidget):
             observables.append(obs_name)
 
         try:
-            print("pre vars: ", variables)
+            """
             variables = {
                 k: list(v) if not isinstance(v, ContinuousVariable) else v
                 for k, v in variables.items()
             }
-            print("post vars: ", variables)
+            """
+            print("!!! variables: ", variables)
             vocs = VOCS(
                 variables=variables,
                 objectives=objectives,
