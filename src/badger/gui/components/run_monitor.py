@@ -813,16 +813,23 @@ class BadgerOptMonitor(QWidget):
         # QMessageBox.information(self, 'Reset Environment',
         #                         f'Env vars {curr_vars} -> {self.init_vars}')
 
-    def save_checkpoint(self):
+    def get_checkpoint(self):
         if not self.routine or not self.routine.environment or not self.routine.vocs:
+            return None
+
+        return self.routine.environment.get_variables(
+            [*self.routine.environment.variables, *self.routine.vocs.variables.keys()]
+        )
+
+    def save_checkpoint(self):
+        checkpoint = self.get_checkpoint()
+        if checkpoint is None:
             QMessageBox.critical(
                 self, "Save Checkpoint", "No environment to read checkpoint data from."
             )
             return
 
-        self.checkpoint_data = self.routine.environment.get_variables(
-            [*self.routine.environment.variables, *self.routine.vocs.variables.keys()]
-        )
+        self.checkpoint_data = checkpoint
         logger.debug(
             f"Checkpoint saved with the following data: {self.checkpoint_data}"
         )
@@ -839,11 +846,23 @@ class BadgerOptMonitor(QWidget):
         popup.setMinimumWidth(400)
 
         popupLayout = QVBoxLayout(popup)
-        editor = BadgerPydanticEditor(self)
+
+        def editor_update_callback(this_editor: BadgerPydanticEditor) -> None:
+            checkpoint = self.get_checkpoint()
+            for i in range(this_editor.topLevelItemCount()):
+                if checkpoint is not None and this_editor.topLevelItem(i).text(0) in checkpoint:
+                    this_editor.topLevelItem(i).setText(1, str(checkpoint[this_editor.topLevelItem(i).text(0)]))
+                else:
+                    this_editor.topLevelItem(i).setText(1, "N/A")
+
+        editor = BadgerPydanticEditor(self, 2, editor_update_callback)
         editor.set_params_from_dict(self.checkpoint_data)
+        editor.setHeaderLabels(["Parameter", "Current Value", "New Value"])
+        editor.setColumnWidth(0, 100)
+        editor.setColumnWidth(1, 125)
         popupLayout.addWidget(editor)
 
-        def popup_editor_accepted():
+        def popup_editor_accepted() -> None:
             self.checkpoint_data = editor.get_parameters_dict()
             logger.debug(
                 f"Checkpoint edited with the following data: {self.checkpoint_data}"
