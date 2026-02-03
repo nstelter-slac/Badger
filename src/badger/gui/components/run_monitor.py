@@ -850,8 +850,13 @@ class BadgerOptMonitor(QWidget):
         def editor_update_callback(this_editor: BadgerPydanticEditor) -> None:
             checkpoint = self.get_checkpoint()
             for i in range(this_editor.topLevelItemCount()):
-                if checkpoint is not None and this_editor.topLevelItem(i).text(0) in checkpoint:
-                    this_editor.topLevelItem(i).setText(1, str(checkpoint[this_editor.topLevelItem(i).text(0)]))
+                if (
+                    checkpoint is not None
+                    and this_editor.topLevelItem(i).text(0) in checkpoint
+                ):
+                    this_editor.topLevelItem(i).setText(
+                        1, str(checkpoint[this_editor.topLevelItem(i).text(0)])
+                    )
                 else:
                     this_editor.topLevelItem(i).setText(1, "N/A")
 

@@ -339,7 +339,8 @@ def _qt_widget_to_yaml_value(widget: Any) -> str | None:
 
 
 def _qt_widgets_to_yaml_recurse(
-    table: QTreeWidget, item: QTreeWidgetItem | None,
+    table: QTreeWidget,
+    item: QTreeWidgetItem | None,
     value_col: int = 1,
 ) -> str:
     out: str = "{"
@@ -388,7 +389,8 @@ def _qt_widget_to_value(widget: Any) -> Any:
 
 
 def _qt_widgets_to_values_recurse(
-    table: QTreeWidget, item: QTreeWidgetItem | None,
+    table: QTreeWidget,
+    item: QTreeWidgetItem | None,
     value_col: int = 1,
 ) -> dict[str, Any]:
     out: dict[str, Any] = {}
@@ -567,7 +569,7 @@ class BadgerPydanticEditor(QTreeWidget):
         self,
         parent: QTreeWidget | None = None,
         value_col: int = 1,
-        update_callback: Callable[[BadgerPydanticEditor], None] | None = None,
+        update_callback: Callable[["BadgerPydanticEditor"], None] | None = None,
     ):
         QTreeWidget.__init__(self, parent)
         if value_col < 1:
@@ -576,7 +578,12 @@ class BadgerPydanticEditor(QTreeWidget):
         self.update_callback = update_callback
         self.setColumnCount(self.value_col + 1)
         self.setColumnWidth(0, 200)
-        self.setHeaderLabels(["Parameter" if i == 0 else "Value" if i == self.value_col else "" for i in range(0, self.value_col + 1)])
+        self.setHeaderLabels(
+            [
+                "Parameter" if i == 0 else "Value" if i == self.value_col else ""
+                for i in range(0, self.value_col + 1)
+            ]
+        )
 
         self.model_class = None
 
@@ -588,7 +595,9 @@ class BadgerPydanticEditor(QTreeWidget):
         hidden: bool,
     ):
         for field_name, field_info in fields.items():
-            child = QTreeWidgetItem([field_name if i == 0 else "" for i in range(0, self.value_col + 1)])
+            child = QTreeWidgetItem(
+                [field_name if i == 0 else "" for i in range(0, self.value_col + 1)]
+            )
 
             if parent is None:
                 self.addTopLevelItem(child)
@@ -923,10 +932,14 @@ class BadgerPydanticEditor(QTreeWidget):
         return defaults
 
     def get_parameters_yaml(self) -> str:
-        return _qt_widgets_to_yaml_recurse(self, self.invisibleRootItem(), self.value_col)
+        return _qt_widgets_to_yaml_recurse(
+            self, self.invisibleRootItem(), self.value_col
+        )
 
     def get_parameters_dict(self) -> dict[str, Any]:
-        return _qt_widgets_to_values_recurse(self, self.invisibleRootItem(), self.value_col)
+        return _qt_widgets_to_values_recurse(
+            self, self.invisibleRootItem(), self.value_col
+        )
 
     def find_widget_at_path(
         self, path: tuple[int | str, ...]
