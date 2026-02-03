@@ -339,7 +339,8 @@ def _qt_widget_to_yaml_value(widget: Any) -> str | None:
 
 
 def _qt_widgets_to_yaml_recurse(
-    table: QTreeWidget, item: QTreeWidgetItem | None
+    table: QTreeWidget, item: QTreeWidgetItem | None,
+    value_col: int = 1,
 ) -> str:
     out: str = "{"
     if item is not None:
@@ -350,7 +351,7 @@ def _qt_widgets_to_yaml_recurse(
 
             child_item_text = child_item.text(0)
             out += f'"{child_item_text}":'
-            widget = table.itemWidget(child_item, 1)
+            widget = table.itemWidget(child_item, value_col)
 
             if child_item.childCount() > 0:
                 out += _qt_widgets_to_yaml_recurse(table, child_item)
@@ -387,7 +388,8 @@ def _qt_widget_to_value(widget: Any) -> Any:
 
 
 def _qt_widgets_to_values_recurse(
-    table: QTreeWidget, item: QTreeWidgetItem | None
+    table: QTreeWidget, item: QTreeWidgetItem | None,
+    value_col: int = 1,
 ) -> dict[str, Any]:
     out: dict[str, Any] = {}
     if item is not None:
@@ -397,7 +399,7 @@ def _qt_widgets_to_values_recurse(
                 continue
 
             key = child_item.text(0)
-            widget = table.itemWidget(child_item, 1)
+            widget = table.itemWidget(child_item, value_col)
 
             if child_item.childCount() > 0:
                 out[key] = _qt_widgets_to_values_recurse(table, child_item)
@@ -564,11 +566,17 @@ class BadgerPydanticEditor(QTreeWidget):
     def __init__(
         self,
         parent: QTreeWidget | None = None,
+        value_col: int = 1,
+        update_callback: Callable[[BadgerPydanticEditor], None] | None = None,
     ):
         QTreeWidget.__init__(self, parent)
-        self.setColumnCount(2)
+        if value_col < 1:
+            value_col = 1
+        self.value_col = value_col
+        self.update_callback = update_callback
+        self.setColumnCount(self.value_col + 1)
         self.setColumnWidth(0, 200)
-        self.setHeaderLabels(["Parameter", "Value"])
+        self.setHeaderLabels(["Parameter" if i == 0 else "Value" if i == self.value_col else "" for i in range(0, self.value_col + 1)])
 
         self.model_class = None
 
@@ -580,7 +588,7 @@ class BadgerPydanticEditor(QTreeWidget):
         hidden: bool,
     ):
         for field_name, field_info in fields.items():
-            child = QTreeWidgetItem([field_name, ""])
+            child = QTreeWidgetItem([field_name if i == 0 else "" for i in range(0, self.value_col + 1)])
 
             if parent is None:
                 self.addTopLevelItem(child)
@@ -618,7 +626,7 @@ class BadgerPydanticEditor(QTreeWidget):
                     hidden,
                 )
             else:
-                self.setItemWidget(child, 1, widget)
+                self.setItemWidget(child, self.value_col, widget)
 
             child.setDisabled(hidden)
             if widget is not None:
@@ -728,7 +736,7 @@ class BadgerPydanticEditor(QTreeWidget):
         special_item = widget_items[0]
 
         # Initialize combo box for special item
-        widget = self.itemWidget(special_item, 1)
+        widget = self.itemWidget(special_item, self.value_col)
         if widget is None or not isinstance(widget, QComboBox):
             raise ValueError(f"{field} does not have a combo box widget.")
         widget = cast(QComboBox, widget)
@@ -813,7 +821,7 @@ class BadgerPydanticEditor(QTreeWidget):
         for cc in tree_widget_item.takeChildren():
             del cc
 
-        widget = self.itemWidget(tree_widget_item, 1)
+        widget = self.itemWidget(tree_widget_item, self.value_col)
         if widget is None or not isinstance(widget, QComboBox):
             raise ValueError("tree widget item does not have a combo box widget.")
         widget = cast(QComboBox, widget)
@@ -915,10 +923,10 @@ class BadgerPydanticEditor(QTreeWidget):
         return defaults
 
     def get_parameters_yaml(self) -> str:
-        return _qt_widgets_to_yaml_recurse(self, self.invisibleRootItem())
+        return _qt_widgets_to_yaml_recurse(self, self.invisibleRootItem(), self.value_col)
 
     def get_parameters_dict(self) -> dict[str, Any]:
-        return _qt_widgets_to_values_recurse(self, self.invisibleRootItem())
+        return _qt_widgets_to_values_recurse(self, self.invisibleRootItem(), self.value_col)
 
     def find_widget_at_path(
         self, path: tuple[int | str, ...]
@@ -957,7 +965,7 @@ class BadgerPydanticEditor(QTreeWidget):
             return
         item.setData(0, Qt.ItemDataRole.BackgroundRole, None)
         item.setToolTip(0, "")
-        widget = self.itemWidget(item, 1)
+        widget = self.itemWidget(item, self.value_col)
         if widget:
             widget.setStyleSheet("")
         for j in range(item.childCount()):
@@ -1005,6 +1013,9 @@ class BadgerPydanticEditor(QTreeWidget):
         # Update parameters with defaults from generator class
         self.set_params_post_setup(defaults)
 
+        if self.update_callback is not None:
+            self.update_callback(self)
+
     def validate(self):
         if self.model_class is None:
             return False
@@ -1045,7 +1056,7 @@ class BadgerPydanticEditor(QTreeWidget):
                 if error_widget:
                     if type(error_widget) is QTreeWidgetItem:
                         error_widget.setBackground(0, Qt.GlobalColor.red)
-                        widget = self.itemWidget(error_widget, 1)
+                        widget = self.itemWidget(error_widget, self.value_col)
                         if widget is not None:
                             widget.setProperty("error", True)
                             widget.setStyleSheet(
