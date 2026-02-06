@@ -15,12 +15,14 @@ from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QScrollArea
 from PyQt5.QtWidgets import QTableWidgetItem, QPlainTextEdit
 from coolname import generate_slug
 from xopt import VOCS
+from xopt.vocs import random_inputs
 from xopt.generators import (
     get_generator_defaults,
     all_generator_names,
     get_generator_dynamic,
 )
 from xopt.utils import get_local_region
+from gest_api.vocs import GreaterThanConstraint, LessThanConstraint
 from pydantic import ValidationError
 
 from badger.gui.components.generator_cbox import BadgerAlgoBox
@@ -66,21 +68,13 @@ from badger.utils import (
     ts_float_to_str,
 )
 
+
 import logging
 
 logger = logging.getLogger(__name__)
 
-LABEL_WIDTH = 96
-CONS_RELATION_DICT = {
-    ">": "GREATER_THAN",
-    "<": "LESS_THAN",
-}
-CONS_RELATION_DICT_INV = {
-    "GREATER_THAN": ">",
-    "LESS_THAN": "<",
-}
 
-logger = logging.getLogger(__name__)
+LABEL_WIDTH = 96
 
 
 def format_validation_error(e: ValidationError) -> str:
@@ -91,6 +85,15 @@ def format_validation_error(e: ValidationError) -> str:
         msg = f"{loc}: {err['msg']}\n"
         messages.append(msg)
     return "\n".join(messages)
+
+
+def extract_constraint_symbol_and_value(constraint):
+    if isinstance(constraint, GreaterThanConstraint):
+        return ">", constraint.value
+    if isinstance(constraint, LessThanConstraint):
+        return "<", constraint.value
+    else:  # Expand for other constraints if needed
+        return "", 0
 
 
 class BadgerRoutinePage(QWidget):
@@ -523,9 +526,8 @@ class BadgerRoutinePage(QWidget):
             status[name] = False  # selected
             constraints.append(cons)
         for name, val in vocs.constraints.items():
-            relation, thres = val
+            relation, thres = extract_constraint_symbol_and_value(val)
             critical = name in critical_constraint_names
-            relation = CONS_RELATION_DICT_INV[relation]
 
             idx = constraints_names_full.index(name)
             if idx == -1:
@@ -876,9 +878,8 @@ class BadgerRoutinePage(QWidget):
             status[name] = False  # selected
             constraints.append(cons)
         for name, val in routine.vocs.constraints.items():
-            relation, thres = val
+            relation, thres = extract_constraint_symbol_and_value(val)
             critical = name in routine.critical_constraint_names
-            relation = CONS_RELATION_DICT_INV[relation]
 
             idx = constraints_names_full.index(name)
             if idx == -1:
@@ -1250,7 +1251,8 @@ class BadgerRoutinePage(QWidget):
         # get small region around current point to sample
         try:
             vocs, _ = self.env_box.compose_vocs()
-        except Exception:
+        except Exception as e:
+            print(str(e))
             # Switch to manual mode to allow the user fixing the vocs issue
             QMessageBox.warning(
                 self,
@@ -1264,8 +1266,8 @@ class BadgerRoutinePage(QWidget):
         random_sample_region = get_local_region(var_curr, vocs, fraction=fraction)
         with warnings.catch_warnings(record=True) as caught_warnings:
             try:
-                random_points = vocs.random_inputs(
-                    n_point, custom_bounds=random_sample_region
+                random_points = random_inputs(
+                    vocs, n_point, custom_bounds=random_sample_region
                 )
             except ValueError:
                 raise VariableRangeError(
