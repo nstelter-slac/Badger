@@ -280,6 +280,7 @@ class VariableTable(QTableWidget):
     sig_var_config = pyqtSignal(str)
     data_changed = pyqtSignal()
     sig_change_bounds = pyqtSignal(float, str)
+    sig_status = pyqtSignal(str)
 
     PLACEHOLDER_TEXT = "Enter new variable here...."
 
@@ -761,13 +762,18 @@ class VariableTable(QTableWidget):
 
         # If no variable names update all
         if not variable_names:
-            variable_names = [next(iter(var)) for var in self.variables]
+            _visible = self.get_visible_variables(self.variables)
+            variable_names = [next(iter(var)) for var in _visible]
 
         # get current values
         if values is None:
+            self.sig_status.emit("Loading variables...")
+            from PyQt5.QtWidgets import QApplication
+            QApplication.processEvents()
             # get values from environment
             self.env = instantiate_env(self.env_class, self.configs)
             value_dict = self.env.get_variables(variable_names)
+            self.sig_status.emit("Variables loaded.")
         else:
             # During optimization loop, variable values are passed from the generator
             # so use values if provided rather than querying the environment.

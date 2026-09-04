@@ -126,6 +126,7 @@ class BadgerRoutinePage(QWidget):
     sig_save_template = pyqtSignal(str)  # template path
     sig_go_run = pyqtSignal()
     sig_select_env = pyqtSignal(str)
+    sig_status = pyqtSignal(str)
 
     def __init__(self):
         logger.info("Initializing BadgerRoutinePage.")
@@ -1205,8 +1206,12 @@ class BadgerRoutinePage(QWidget):
             return
 
         try:
+            self.sig_status.emit("Loading variables...")
+            from PyQt5.QtWidgets import QApplication
+            QApplication.processEvents()
             # Get the current variables from the environment
             var_curr = env.get_variables(vname_selected)
+            self.sig_status.emit("Variables loaded.")
         except Exception as e:
             raise BadgerEnvVarError(
                 f"Failed to get current variable values : {e}\n"
