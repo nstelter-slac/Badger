@@ -1208,6 +1208,7 @@ class BadgerRoutinePage(QWidget):
         try:
             self.sig_status.emit("Loading variables...")
             from PyQt5.QtWidgets import QApplication
+
             QApplication.processEvents()
             # Get the current variables from the environment
             var_curr = env.get_variables(vname_selected)

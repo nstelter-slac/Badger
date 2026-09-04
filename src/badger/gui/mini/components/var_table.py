@@ -769,6 +769,7 @@ class VariableTable(QTableWidget):
         if values is None:
             self.sig_status.emit("Loading variables...")
             from PyQt5.QtWidgets import QApplication
+
             QApplication.processEvents()
             # get values from environment
             self.env = instantiate_env(self.env_class, self.configs)
