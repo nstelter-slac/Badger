@@ -126,6 +126,7 @@ class BadgerRoutinePage(QWidget):
     sig_save_template = pyqtSignal(str)  # template path
     sig_go_run = pyqtSignal()
     sig_select_env = pyqtSignal(str)
+    sig_status = pyqtSignal(str)
 
     def __init__(self):
         logger.info("Initializing BadgerRoutinePage.")
@@ -1070,6 +1071,15 @@ class BadgerRoutinePage(QWidget):
     @with_busy_cursor
     def select_env(self, i: int):
         logger.info(f"Environment selected: {self.env_box.env_name} (index={i})")
+
+        self.sig_status.emit("Loading variables...")
+        from PyQt5.QtWidgets import QApplication
+
+        QApplication.processEvents()
+        import time
+
+        time.sleep(5)
+
         # Reset the initial table actions and ratio var ranges
         self.init_table_actions = []
         self.ratio_var_ranges = {}
@@ -1184,6 +1194,8 @@ class BadgerRoutinePage(QWidget):
 
         # Update the docs
         self.window_env_docs.update_docs(env.name, "environment")
+
+        self.sig_status.emit("Variable loading done.")
 
     def get_init_table_header(self):
         table = self.env_box.init_table

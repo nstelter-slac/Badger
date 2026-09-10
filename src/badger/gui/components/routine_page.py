@@ -77,7 +77,7 @@ from badger.gui.windows.ind_lim_vrange_dialog import (
 from badger.gui.windows.review_dialog import BadgerReviewDialog
 from badger.gui.windows.add_random_dialog import BadgerAddRandomDialog
 from badger.gui.windows.message_dialog import BadgerScrollableMessageBox
-from badger.gui.utils import filter_generator_config
+from badger.gui.utils import filter_generator_config, with_busy_cursor
 from badger.gui.components.archive_search import ArchiveSearchWidget
 from badger.archive import update_run
 from badger.environment import instantiate_env
@@ -149,6 +149,7 @@ class BadgerRoutinePage(QWidget):
     sig_updated = pyqtSignal(str, str)  # routine name, routine description
     sig_load_template = pyqtSignal(str)  # template path
     sig_save_template = pyqtSignal(str)  # template path
+    sig_status = pyqtSignal(str)
 
     def __init__(self):
         logger.info("Initializing BadgerRoutinePage.")
@@ -1114,8 +1115,18 @@ class BadgerRoutinePage(QWidget):
         except Exception as e:
             QMessageBox.warning(self, "Invalid script!", str(e))
 
+    @with_busy_cursor
     def select_env(self, i: int):
         logger.info(f"Environment selected: {self.env_box.cb.itemText(i)} (index={i})")
+
+        self.sig_status.emit("Loading variables...")
+        from PyQt5.QtWidgets import QApplication
+
+        QApplication.processEvents()
+        import time
+
+        time.sleep(5)
+
         # Reset the initial table actions and ratio var ranges
         self.init_table_actions = []
         self.ratio_var_ranges = {}
@@ -1240,6 +1251,8 @@ class BadgerRoutinePage(QWidget):
 
         # Update the docs
         self.window_env_docs.update_docs(env.name, "environment")
+
+        self.sig_status.emit("Variable loading done.")
 
     def get_init_table_header(self):
         table = self.env_box.init_table
