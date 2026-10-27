@@ -122,29 +122,26 @@ git clone https://github.com/xopt-org/badger.git
 Create a fresh Python environment, for example using conda:
 ```shell
 conda create -n badger-env python=3.12
+conda activate badger-env
 ```
 
 Install Badger as editable:
 ```shell
-conda activate badger-env
+cd Badger
 pip install -e ".[dev]"
 ```
 
-You'll also need to install `ruff` and `pre-commit` to be able to
-pass the linting and formatting checks:
-```shell
-pip install ruff pre-commit
-```
-
-Then install the pre-commit hooks:
+You'll will also want to register the git pre-commit hooks to run automatically on commits:
 ```shell
 pre-commit install
 ```
 
-You can also do a run at any time to check your progress:
+You can also run the hooks at any time to check your current changes:
 ```shell
 pre-commit run --all-files
 ```
+
+And for adding to the docs, see the guide in [documentation/README.md](documentation/README.md)
 
 ### GUI guide
 

@@ -1,6 +1,6 @@
 # Badger Homepage
 
-The Badger Homepace hosts the Badger documentation, and can be accessed at: [https://xopt-org.github.io/Badger/](https://xopt-org.github.io/Badger/).
+The Badger Homepage hosts the Badger documentation, and can be accessed at: [https://xopt-org.github.io/Badger/](https://xopt-org.github.io/Badger/).
 
 Any new additions or edits to Badger's documentation can be made here in the Badger repo's `/documentation` folder.
 The homepage source must build successfully on each PR before it can be merged into main.
@@ -15,7 +15,7 @@ After making changes to the Badger Homepage source, you can test things out by b
 3. `npm install`
 4. `npm run build` (if this fails there are issues with your changes!)
 5. `npm run serve`
-5. Now open an internet-broweser to address `http://localhost:3000` to view your locally built version of the homepage!
+6. Now open an internet browser to address `http://localhost:3000/Badger/` to view your locally built version of the homepage!
 
 
 ### Notes on creating highlighted images

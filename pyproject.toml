@@ -37,7 +37,7 @@ dynamic = ["version"]
 version_file = "src/badger/_version.py"
 
 [project.optional-dependencies]
-dev = ["pytest", "pytest-cov", "pytest-qt", "pytest-mock", "pyqt5-stubs"]
+dev = ["pytest", "pytest-cov", "pytest-qt", "pytest-mock", "pyqt5-stubs", "ruff", "pre-commit"]
 
 [project.urls]
 Homepage = "https://github.com/xopt-org/Badger"
