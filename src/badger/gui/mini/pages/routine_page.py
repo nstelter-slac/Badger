@@ -1145,7 +1145,7 @@ class BadgerRoutinePage(QWidget):
             self.env_box.var_table.update_variables(vars_combine)
         # Auto apply the limited variable ranges if the option is set
         if self.env_box.relative_to_curr.isChecked():
-            self.set_vrange()
+            self.set_vrange(current_values=self.env_box.var_table.current_values)
         self.env_box.var_table.set_scan_range_options()
 
         objectives = []
@@ -1402,7 +1402,14 @@ class BadgerRoutinePage(QWidget):
         )
         dlg.exec()
 
-    def set_vrange(self, set_all=True):
+    def set_vrange(
+        self, set_all=True, *, current_values: dict[str, float] | None = None
+    ):
+        """Apply range limits, optionally reusing values from the same UI load.
+
+        Explicit range updates read live values unless the caller supplies the
+        snapshot just read while populating the variable table.
+        """
         # By default update all variables no matter if selected or not
         vname_selected = []
         vrange = {}
@@ -1423,15 +1430,17 @@ class BadgerRoutinePage(QWidget):
             vname_selected.append(name)
             vrange[name] = var[name]
 
-        env = self.create_env()
-        try:
-            # Get the current variables from the environment
-            var_curr = env.get_variables(vname_selected)
-        except Exception as e:
-            raise BadgerEnvVarError(
-                f"Failed to get current variable values : {e}\n"
-                "Please ensure the environment is properly configured."
-            ) from e
+        if current_values is None:
+            env = self.create_env()
+            try:
+                var_curr = env.get_variables(vname_selected)
+            except Exception as e:
+                raise BadgerEnvVarError(
+                    f"Failed to get current variable values : {e}\n"
+                    "Please ensure the environment is properly configured."
+                ) from e
+        else:
+            var_curr = current_values
 
         option_idx = self.limit_option["limit_option_idx"]
         clipped = {}

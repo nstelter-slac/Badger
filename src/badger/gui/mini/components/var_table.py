@@ -792,7 +792,7 @@ class VariableTable(QTableWidget):
 
     def update_variables(
         self,
-        variables: list[dict[str, tuple[float, float] | ContinuousVariable]],
+        variables: list[dict[str, tuple[float, float] | ContinuousVariable]] | None,
         filtered: int = 0,
     ):
         # filtered = 0: completely refresh
@@ -802,7 +802,7 @@ class VariableTable(QTableWidget):
 
         self.setRowCount(0)
 
-        variables = [self._convert_bounds_to_tuple(var) for var in variables]
+        variables = [self._convert_bounds_to_tuple(var) for var in (variables or [])]
 
         if not filtered:
             self.all_variables = variables or []

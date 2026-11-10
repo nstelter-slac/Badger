@@ -74,6 +74,11 @@ The variable table displays three key columns instead of raw upper/lower bounds:
 | **Current** | Live value read from the environment. Updates when Badger writes to variables (dial in, reset, or at each optimization step), or when the table is manually refreshed. |
 | **Range** | Shown as a delta (±) around the current value. Based on the selected range option from the template. |
 
+When selecting an environment, Badger reads its variables once and uses that same
+snapshot for the initial Current/Saved values and automatic ranges. Filtering or
+redrawing the table does not read the environment again. Manual refreshes and
+subsequent range recalculations still request fresh values.
+
 #### Range Indicators
 
 - If desired bounds are clipped by hard variable limits, an **asterisk (*)** appears next to the range value.
